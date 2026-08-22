@@ -1,0 +1,19 @@
+[project]
+name = "devink-docs"
+version = "0.1.0"
+description = "Official documentation for Devink, a Medium-inspired platform for developers to share technical knowledge and ideas."
+readme = "README.md"
+authors = [
+    { name = "Alireza Esp", email = "alireza.esp07@gmail.com" }
+]
+requires-python = ">=3.12.13"
+dependencies = [
+    "zensical>=0.0.57",
+]
+
+[project.scripts]
+devink-docs = "scripts:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
