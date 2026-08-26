@@ -1,6 +1,6 @@
 ---
-# title: Lorem ipsum dolor sit amet
-# description: Nullam urna elit, malesuada eget finibus ut, ac tortor.
+# title: Overview
+# description: General overview of of Devink.
 icon: lucide/home
 # status: new
 # template: index.html

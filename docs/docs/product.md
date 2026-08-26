@@ -1,6 +1,6 @@
 ---
-# title: Lorem ipsum dolor sit amet
-# description: Nullam urna elit, malesuada eget finibus ut, ac tortor.
+# title: Product
+# description: Detailed product-driven document of Devink.
 icon: lucide/package
 # status: new
 # template: index.html
