@@ -1,58 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Devink
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> A developer-focused publishing platform for sharing, discovering, and discussing technical content.
 
-## About Laravel
+Devink is a publishing platform built for developers and software engineers.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+It aims to provide a focused environment where developers can publish technical articles, discover high-quality content, build their professional presence, and engage with other members of the developer community.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Devink is being developed as a real-world software product, with an emphasis on maintainability, simplicity, security, and a well-defined engineering process.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Features
 
-## Learning Laravel
+Devink is currently under active development.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Planned core capabilities include:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* 📝 Technical article publishing
+* 👤 Developer profiles
+* 🔖 Tags and content discovery
+* 💬 Comments and discussions
+* ❤️ Reactions
+* 🔔 Following and notifications
+* 📚 Bookmarks
+* 🔎 Content search
+* 🛡️ Content moderation
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+The feature set will evolve as the product develops.
 
-## Agentic Development
+## 🏗️ Architecture
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Devink follows a separated frontend/backend architecture:
 
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```text
+┌─────────────────┐
+│    Frontend     │
+└────────┬────────┘
+         │
+       REST API
+         │
+┌────────▼────────┐
+│ Laravel Backend │
+└────────┬────────┘
+         │
+    ┌────┴────┐
+    │         │
+PostgreSQL  Redis
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The backend is built with Laravel and exposes a versioned REST API for the frontend.
 
-## Contributing
+For a detailed overview of the system architecture, see the [Architecture Documentation](docs/docs/architecture.md).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🛠️ Technology
 
-## Code of Conduct
+### Backend
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* PHP
+* Laravel
+* PostgreSQL
+* Redis
 
-## Security Vulnerabilities
+### Frontend
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* In development
 
-## License
+### Infrastructure
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Docker
+* Linux
+* CI/CD
+
+Technology choices and architectural decisions are documented in the [Architecture Documentation](docs/docs/architecture.md).
+
+## 📚 Documentation
+
+The project documentation covers the complete lifecycle of Devink, from product definition and requirements to development, deployment, and operations.
+
+Start with the [Documentation](docs/docs/index.md).
+
+### Main sections
+
+* [Product](docs/docs/product.md) — Product vision, users, goals, features, and scope
+* [Requirements](docs/docs/requirements.md) — Functional and non-functional requirements
+* [Architecture](docs/docs/architecture.md) — System and software architecture
+* [Database](docs/docs/database.md) — Database schema and design
+* [API](docs/docs/api.md) — API conventions and endpoints
+* [Development](docs/docs/development.md) — Local setup and development workflow
+* [Security](docs/docs/security.md) — Security considerations and practices
+* [Deployment](docs/docs/deployment.md) — Environments and deployment process
+* [Operations](docs/docs/operations.md) — Monitoring, backups, and maintenance
+* [Architecture Decisions](docs/docs/decisions/) — Important technical decisions and their rationale
+
+## 🚧 Project Status
+
+Devink is currently under active development.
+
+The project is being built incrementally, starting with the core publishing experience and expanding as the product evolves.
+
+Features, architecture, and APIs may change during development.
+
+## 🤝 Contributing
+
+Contributions, ideas, and discussions are welcome.
+
+Before contributing, please read the [Contributing Guide](CONTRIBUTING.md).
+
+## 🔐 Security
+
+If you discover a security vulnerability, please refer to [SECURITY.md](SECURITY.md) for information about reporting it.
+
+## 📄 License
+
+Devink is licensed under the terms specified in [LICENSE](LICENSE).
