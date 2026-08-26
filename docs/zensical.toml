@@ -22,8 +22,9 @@ nav = [
   { "Deployment" = "deployment.md" },
   { "Operations" = "operations.md" },
   { "Decisions" = [
-      { "ADR-001" = "decisions/adr-001.md"}
-  ]},
+    "decisions/index.md",
+    { "ADR-001" = "decisions/adr-001.md" },
+  ] },
 ]
 
 # extra_css = ["stylesheets/extra.css"]

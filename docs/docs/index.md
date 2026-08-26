@@ -1,3 +1,15 @@
+---
+# title: Lorem ipsum dolor sit amet
+# description: Nullam urna elit, malesuada eget finibus ut, ac tortor.
+icon: lucide/home
+# status: new
+# template: index.html
+# hide:
+#     - navigation
+#     - toc
+---
+
+
 # Devink
 
 > A developer-focused publishing platform for sharing, discovering, and discussing technical content.
