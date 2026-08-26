@@ -23,7 +23,7 @@ nav = [
   { "Operations" = "operations.md" },
   { "Decisions" = [
     "decisions/index.md",
-    { "ADR-001" = "decisions/adr-001.md" },
+    "decisions/adr-001-separate-frontend-and-backend.md",
   ] },
 ]
 
