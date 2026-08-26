@@ -1,173 +1,115 @@
+# Devink
+
+> A developer-focused publishing platform for sharing, discovering, and discussing technical content.
+
+## Introduction
+
+Devink is a publishing platform built specifically for developers and software engineers.
+
+The goal of Devink is to provide a focused environment for creating, publishing, discovering, and engaging with technical content — with an emphasis on software development and engineering.
+
+Devink is designed as a real-world software product rather than a demonstration or learning project. The project follows a structured engineering process covering product definition, system design, development, testing, security, deployment, and operations.
+
 ---
-icon: lucide/rocket
+
+## Project Status
+
+Devink is currently under active development.
+
+The project is being built incrementally, with product requirements, architecture, API contracts, and implementation evolving together throughout the development lifecycle.
+
 ---
 
-# Get started
+## Documentation
 
-For full documentation visit [zensical.org](https://zensical.org/docs/).
+This documentation covers the different aspects of Devink, from product requirements and architecture to development and deployment.
 
-## Commands
+### Product
 
-* [`zensical new`][new] - Create a new project
-* [`zensical serve`][serve] - Start local web server
-* [`zensical build`][build] - Build your site
+Understand what Devink is, who it is built for, and what problems it aims to solve.
 
-  [new]: https://zensical.org/docs/usage/new/
-  [serve]: https://zensical.org/docs/usage/preview/
-  [build]: https://zensical.org/docs/usage/build/
+- [Product Overview](product.md)
+- [Requirements](requirements.md)
 
-## Examples
+### Architecture
 
-### Admonitions
+Learn how Devink is structured and how its major components interact.
 
-> Go to [documentation](https://zensical.org/docs/authoring/admonitions/)
+- [Architecture](architecture.md)
+- [Database](database.md)
+- [API](api.md)
 
-!!! note
+### Development
 
-    This is a **note** admonition. Use it to provide helpful information.
+Everything developers need to set up, develop, test, and contribute to Devink.
 
-!!! warning
+- [Development Guide](development.md)
 
-    This is a **warning** admonition. Be careful!
+### Security & Operations
 
-### Details
+Documentation related to securing, deploying, monitoring, and maintaining Devink.
 
-> Go to [documentation](https://zensical.org/docs/authoring/admonitions/#collapsible-blocks)
+- [Security](security.md)
+- [Deployment](deployment.md)
+- [Operations](operations.md)
 
-??? info "Click to expand for more info"
+### Architecture Decisions
 
-    This content is hidden until you click to expand it.
-    Great for FAQs or long explanations.
+Important technical and architectural decisions made throughout the project are documented as Architecture Decision Records.
 
-## Code Blocks
+- [Architecture Decision Records](decisions/)
 
-> Go to [documentation](https://zensical.org/docs/authoring/code-blocks/)
+---
 
-``` python hl_lines="2" title="Code blocks"
-def greet(name):
-    print(f"Hello, {name}!") # (1)!
+## Technology
 
-greet("Python")
-```
+Devink is built using a modern web application architecture.
 
-1.  > Go to [documentation](https://zensical.org/docs/authoring/code-blocks/#code-annotations)
+### Backend
 
-    Code annotations allow to attach notes to lines of code.
+- Laravel
+- PHP
+- PostgreSQL
+- Redis
 
-Code can also be highlighted inline: `#!python print("Hello, Python!")`.
+### Frontend
 
-## Content tabs
+- [To be defined]
 
-> Go to [documentation](https://zensical.org/docs/authoring/content-tabs/)
+### Infrastructure
 
-=== "Python"
+- Docker
+- Linux
+- CI/CD
 
-    ``` python
-    print("Hello from Python!")
-    ```
+The exact technology choices and architectural decisions are documented in the [Architecture](architecture.md) section.
 
-=== "Rust"
+---
 
-    ``` rs
-    println!("Hello from Rust!");
-    ```
+## Project Principles
 
-## Diagrams
+Devink is developed around a few core principles:
 
-> Go to [documentation](https://zensical.org/docs/authoring/diagrams/)
+### Simplicity
 
-``` mermaid
-graph LR
-  A[Start] --> B{Error?};
-  B -->|Yes| C[Hmm...];
-  C --> D[Debug];
-  D --> B;
-  B ---->|No| E[Yay!];
-```
+Prefer simple solutions over unnecessary complexity.
 
-## Footnotes
+### Maintainability
 
-> Go to [documentation](https://zensical.org/docs/authoring/footnotes/)
+Code and architecture should remain understandable and maintainable as the project grows.
 
-Here's a sentence with a footnote.[^1]
+### Documentation
 
-Hover it, to see a tooltip.
+Important decisions, requirements, and technical knowledge should be documented alongside the project.
 
-[^1]: This is the footnote.
+### Security
 
+Security is considered throughout the development lifecycle rather than as a final step before release.
 
-## Formatting
+### Quality
 
-> Go to [documentation](https://zensical.org/docs/authoring/formatting/)
+Features should be tested and reviewed before being considered complete.
 
-- ==This was marked (highlight)==
-- ^^This was inserted (underline)^^
-- ~~This was deleted (strikethrough)~~
-- H~2~O
-- A^T^A
-- ++ctrl+alt+del++
+### Incremental Development
 
-## Icons, Emojis
-
-> Go to [documentation](https://zensical.org/docs/authoring/icons-emojis/)
-
-* :sparkles: `:sparkles:`
-* :rocket: `:rocket:`
-* :tada: `:tada:`
-* :memo: `:memo:`
-* :eyes: `:eyes:`
-
-## Maths
-
-> Go to [documentation](https://zensical.org/docs/authoring/math/)
-
-$$
-\cos x=\sum_{k=0}^{\infty}\frac{(-1)^k}{(2k)!}x^{2k}
-$$
-
-!!! warning "Needs configuration"
-    Note that MathJax is included via a `script` tag on this page and is not
-    configured in the generated default configuration to avoid including it
-    in a pages that do not need it. See the documentation for details on how
-    to configure it on all your pages if they are more Maths-heavy than these
-    simple starter pages.
-
-<script id="MathJax-script" src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [["\\(", "\\)"]],
-      displayMath: [["\\[", "\\]"]],
-      processEscapes: true,
-      processEnvironments: true
-    },
-    options: {
-      ignoreHtmlClass: ".*|",
-      processHtmlClass: "arithmatex"
-    }
-  };
-
-  document$.subscribe(() => {
-    MathJax.startup.output.clearCache()
-    MathJax.typesetClear()
-    MathJax.texReset()
-    MathJax.typesetPromise()
-  })
-</script>
-
-## Task Lists
-
-> Go to [documentation](https://zensical.org/docs/authoring/lists/#using-task-lists)
-
-* [x] Install Zensical
-* [x] Configure `zensical.toml`
-* [x] Write amazing documentation
-* [ ] Deploy anywhere
-
-## Tooltips
-
-> Go to [documentation](https://zensical.org/docs/authoring/tooltips/)
-
-[Hover me][example]
-
-  [example]: https://example.com "I'm a tooltip!"
+Devink is built incrementally. New complexity is introduced when the product actually requires it.
