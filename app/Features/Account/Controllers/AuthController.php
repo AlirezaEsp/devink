@@ -4,7 +4,7 @@ namespace App\Features\Account\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserController
+class AuthController
 {
     //
 }
