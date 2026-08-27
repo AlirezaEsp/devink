@@ -2,7 +2,9 @@
 
 namespace App\Features\Account\Controllers;
 
-abstract class Controller
+use Illuminate\Http\Request;
+
+class UserController
 {
     //
 }
