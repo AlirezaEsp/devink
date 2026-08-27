@@ -17,6 +17,14 @@ Each decision records the context, alternatives considered, reasoning, trade-off
 
 The purpose of ADRs is not only to document **what** was decided, but also **why** the decision was made.
 
+## Decisions
+
+| ID                    | Decision                      | Status   |
+| --------------------- | ----------------------------- | -------- |
+| [ADR-001](adr-001-separate-frontend-and-backend.md) | Separate Frontend and Backend | Accepted |
+| [ADR-002](adr-001-separate-frontend-and-backend.md) | Choose Laravel for the Backend | Accepted |
+
+
 ## When to Create an ADR
 
 An ADR should be created when a technical decision:
@@ -28,13 +36,6 @@ An ADR should be created when a technical decision:
 * Represents a decision that the project may need to revisit later.
 
 Not every implementation detail requires an ADR.
-
-## Decisions
-
-| ID                    | Decision                      | Status   |
-| --------------------- | ----------------------------- | -------- |
-| [ADR-001](adr-001-separate-frontend-and-backend.md) | Separate Frontend and Backend | Accepted |
-
 
 ## Principles
 
