@@ -25,6 +25,7 @@ nav = [
     "decisions/index.md",
     "decisions/adr-001-separate-frontend-and-backend.md",
     "decisions/adr-002-choose-laravel-for-the-backend.md",
+    "decisions/adr-003-feature-based-backend-system.md",
   ] },
 ]
 

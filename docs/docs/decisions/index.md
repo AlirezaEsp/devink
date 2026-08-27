@@ -22,7 +22,8 @@ The purpose of ADRs is not only to document **what** was decided, but also **why
 | ID                    | Decision                      | Status   |
 | --------------------- | ----------------------------- | -------- |
 | [ADR-001](adr-001-separate-frontend-and-backend.md) | Separate Frontend and Backend | Accepted |
-| [ADR-002](adr-001-separate-frontend-and-backend.md) | Choose Laravel for the Backend | Accepted |
+| [ADR-002](adr-002-choose-laravel-for-the-backend.md) | Choose Laravel for the Backend | Accepted |
+| [ADR-003](adr-003-feature-based-backend-system.md) | Feature-Based Backend Structure | Accepted |
 
 
 ## When to Create an ADR
