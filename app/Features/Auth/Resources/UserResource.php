@@ -4,7 +4,14 @@ namespace App\Features\Auth\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Features\Auth\Models\User;
 
+
+/**
+ * UserResource
+ * 
+ * @mixin User
+ */
 class UserResource extends JsonResource
 {
     /**
