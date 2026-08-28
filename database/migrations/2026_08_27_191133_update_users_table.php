@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->after('id');
+            $table->string('username', 255)->unique()->after('id');
 
             $table->timestamp('last_login_at')->nullable()->after('password');
 
@@ -30,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('name')->nullable();
+            $table->string('name', 255)->nullable();
 
             $table->dropUnique('username');
 
