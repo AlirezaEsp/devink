@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Account\Models;
+namespace App\Features\Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
