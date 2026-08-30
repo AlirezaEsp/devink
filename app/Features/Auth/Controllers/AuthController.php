@@ -10,7 +10,7 @@ use App\Features\Auth\Resources\UserResource;
 class AuthController
 {
     public function store(RegisterRequest $request, RegisterService $service): UserResource {
-        $user = $service->execute(
+        $user = $service->registerUser(
             $request->validated()
         );
 
