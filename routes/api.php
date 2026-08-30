@@ -9,6 +9,6 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'store'])->name('auth.register');
         Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-        Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('auth.logout');
     });
 });
