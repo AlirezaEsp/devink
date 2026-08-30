@@ -12,7 +12,7 @@ use App\Features\Auth\Models\User;
  * 
  * @mixin User
  */
-class UserResource extends JsonResource
+class RegisterResponse extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,9 +22,9 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'email' => $this->email,
-            'created_at' => $this->created_at,
+            'id' => $this->resource->id,
+            'email' => $this->resource->email,
+            'created_at' => $this->resource->created_at,
         ];
     }
 }

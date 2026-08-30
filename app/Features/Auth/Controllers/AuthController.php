@@ -7,17 +7,17 @@ use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Requests\LoginRequest;
 use App\Features\Auth\Services\RegisterService;
 use App\Features\Auth\Services\LoginService;
-use App\Features\Auth\Resources\UserResource;
+use App\Features\Auth\Resources\RegisterResponse;
 use App\Features\Auth\Resources\LoginResponse;
 
 class AuthController
 {
-    public function store(RegisterRequest $request, RegisterService $service): UserResource {
+    public function store(RegisterRequest $request, RegisterService $service): RegisterResponse {
         $user = $service->registerUser(
             $request->validated()
         );
 
-        return new UserResource($user);
+        return new RegisterResponse($user);
     }
 
     public function login(LoginRequest $request, LoginService $service): LoginResponse
