@@ -22,9 +22,11 @@ class RegisterResponse extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->resource->id,
-            'email' => $this->resource->email,
-            'created_at' => $this->resource->created_at,
+            'user' => [
+                'id' => $this->resource->id,
+                'email' => $this->resource->email,
+                'created_at' => $this->resource->created_at,
+            ]
         ];
     }
 }
