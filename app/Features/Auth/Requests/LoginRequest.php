@@ -5,6 +5,11 @@ namespace App\Features\Auth\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * LoginRequest
+ * 
+ * Performs login form request tasks
+ */
 class LoginRequest extends FormRequest
 {
     /**

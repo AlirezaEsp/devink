@@ -8,6 +8,10 @@ use App\Features\Auth\Models\User;
 
 
 /**
+ * LoginResponse
+ * 
+ * Performs logged in user and token serilization for responsing
+ * 
  * @mixin User
  */
 class LoginResponse extends JsonResource

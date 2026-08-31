@@ -36,7 +36,15 @@ class AuthController
 
         return new RegisterResponse($user);
     }
-
+    
+    /**
+     * Method login
+     *
+     * @param LoginRequest $request Dedicated form request
+     * @param LoginService $service Dedicated service [DI from ServiceContainer]
+     *
+     * @return LoginResponse
+     */
     public function login(LoginRequest $request, LoginService $service): LoginResponse
     {
         $user = $service->loginUser(
