@@ -39,6 +39,8 @@ class AuthController
     
     /**
      * Method login
+     * 
+     * Controlls user logging in flow
      *
      * @param LoginRequest $request Dedicated form request
      * @param LoginService $service Dedicated service [DI from ServiceContainer]
