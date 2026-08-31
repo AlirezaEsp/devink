@@ -5,6 +5,11 @@ namespace App\Features\Auth\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * RegisterRequest
+ * 
+ * Performs register form request tasks
+ */
 class RegisterRequest extends FormRequest
 {
     /**

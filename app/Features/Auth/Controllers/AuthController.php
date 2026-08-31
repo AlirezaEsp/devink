@@ -12,8 +12,23 @@ use App\Features\Auth\Resources\RegisterResponse;
 use App\Features\Auth\Resources\LoginResponse;
 use App\Features\Auth\Resources\LogoutResponse;
 
+/**
+ * AuthController
+ * 
+ * Controlls Authentiction flows
+ */
 class AuthController
-{
+{    
+    /**
+     * Method store
+     *
+     * Controlls user registertaion flow
+     * 
+     * @param RegisterRequest $request Dedicated form request
+     * @param RegisterService $service Dedicated service [DI from ServiceContainer]
+     *
+     * @return RegisterResponse
+     */
     public function store(RegisterRequest $request, RegisterService $service): RegisterResponse {
         $user = $service->registerUser(
             $request->validated()

@@ -10,6 +10,8 @@ use App\Features\Auth\Models\User;
 /**
  * UserResource
  * 
+ * Performs registered user model serilization for responsing
+ * 
  * @mixin User
  */
 class RegisterResponse extends JsonResource
