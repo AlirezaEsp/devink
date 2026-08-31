@@ -20,6 +20,7 @@ class RegisterService
      * @return User Registered user
      */
     public function registerUser(array $data): User {
+        // add user to db
         return User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password'])

@@ -8,7 +8,7 @@ use App\Features\Auth\Models\User;
 
 
 /**
- * UserResource
+ * RegisterResource
  * 
  * Performs registered user model serilization for responsing
  * 
