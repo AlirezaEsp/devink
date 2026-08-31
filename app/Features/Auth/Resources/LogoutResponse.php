@@ -9,6 +9,8 @@ use App\Features\Auth\Models\User;
 /**
  * LogoutResponse
  * 
+ * Performs logged out user model serilization for responsing
+ * 
  * @mixin User
  */
 class LogoutResponse extends JsonResource

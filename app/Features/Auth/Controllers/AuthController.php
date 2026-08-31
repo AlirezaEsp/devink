@@ -55,7 +55,17 @@ class AuthController
 
         return new LoginResponse($user);
     }
-
+    
+    /**
+     * Method logout
+     * 
+     * Controlls user logging out flow
+     *
+     * @param LogoutRequest $request Dedicated form request
+     * @param LogoutService $service Dedicated service [DI from ServiceContainer]
+     *
+     * @return LogoutResponse
+     */
     public function logout(LogoutRequest $request, LogoutService $service): LogoutResponse {
         $user = $service->logoutUser($request->user());
 

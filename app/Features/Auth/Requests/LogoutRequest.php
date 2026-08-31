@@ -5,6 +5,11 @@ namespace App\Features\Auth\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * LogoutRequest
+ * 
+ * Performs logout form request tasks
+ */
 class LogoutRequest extends FormRequest
 {
     /**
