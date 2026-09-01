@@ -3,7 +3,7 @@
 namespace App\Features\Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Features\Accounts\Models\Profile;
+use App\Features\Account\Models\Profile;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;

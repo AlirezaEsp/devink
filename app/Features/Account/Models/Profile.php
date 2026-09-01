@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Accounts\Models;
+namespace App\Features\Account\Models;
 
 use App\Features\Auth\Models\User;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
