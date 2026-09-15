@@ -17,13 +17,17 @@ class RegisterService
      *
      * @param array $data Valiadated user fillable data came from LoginRequest
      *
-     * @return User Registered user
+     * @return array array containing the user
      */
-    public function registerUser(array $data): User {
+    public function registerUser(array $data): array {
         // add user to db
-        return User::create([
+        $user = User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
+        
+        return [
+            'user' => $user
+        ];
     }
 }

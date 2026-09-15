@@ -16,12 +16,14 @@ class LogoutService
      *
      * @param User $user Authenticated user object from Request
      *
-     * @return User The same logged out user
+     * @return array Array containing the user
      */
-    public function logoutUser(User $user): User {
+    public function logoutUser(User $user): array {
         // delete current valid access token
         $user->currentAccessToken()->delete();
 
-        return $user;
+        return [
+            'user' => $user
+        ];
     }
 }

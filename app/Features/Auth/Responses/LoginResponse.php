@@ -25,7 +25,7 @@ class LoginResponse extends JsonResource
     {
         return [
             'message' => 'User logged in successfully.',
-            'user' => new UserResource($this->resource),
+            'user' => new UserResource($this->resource['user']),
             'token' => $this->resource["token"]
         ];
     }

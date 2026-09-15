@@ -25,7 +25,7 @@ class LogoutResponse extends JsonResource
     {
         return [
             'message' => 'User logged out successfully.',
-            'user' => new UserResource($this->resource)
+            'user' => new UserResource($this->resource['user'])
         ];
     }
 }

@@ -32,11 +32,11 @@ class AuthController
      */
     public function store(RegisterRequest $request, RegisterService $service): RegisterResponse
     {
-        $user = $service->registerUser(
+        $user_array = $service->registerUser(
             $request->validated()
         );
 
-        return new RegisterResponse($user);
+        return new RegisterResponse($user_array);
     }
     
     /**
@@ -49,11 +49,11 @@ class AuthController
      */
     public function login(LoginRequest $request, LoginService $service): LoginResponse
     {
-        $user = $service->loginUser(
+        $user_array = $service->loginUser(
             $request->validated()
         );
 
-        return new LoginResponse($user);
+        return new LoginResponse($user_array);
     }
     
     /**
@@ -66,8 +66,10 @@ class AuthController
      */
     public function logout(Request $request, LogoutService $service): LogoutResponse
     {
-        $user = $service->logoutUser($request->user());
+        $user_array = $service->logoutUser(
+            $request->user()
+        );
 
-        return new LogoutResponse($user);
+        return new LogoutResponse($user_array);
     }
 }

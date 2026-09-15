@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\JsonResponse;
 use App\Features\Auth\Resources\UserDetailedResource;
-use Response;
 
 
 /**
@@ -27,7 +26,7 @@ class RegisterResponse extends JsonResource
     {
         return [
             'message' => 'User registered successfully.',
-            'user' => new UserDetailedResource($this->resource)
+            'user' => new UserDetailedResource($this->resource['user'])
         ];
     }
 
