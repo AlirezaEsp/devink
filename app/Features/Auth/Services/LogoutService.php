@@ -14,7 +14,7 @@ class LogoutService
     /**
      * Method logoutUser
      *
-     * @param User $user Authenticated user object from LogoutRequest
+     * @param User $user Authenticated user object from Request
      *
      * @return User The same logged out user
      */

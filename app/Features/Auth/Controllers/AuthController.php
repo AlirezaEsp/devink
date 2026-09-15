@@ -2,13 +2,16 @@
 
 namespace App\Features\Auth\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Services\RegisterService;
 use App\Features\Auth\Responses\RegisterResponse;
+
 use App\Features\Auth\Requests\LoginRequest;
 use App\Features\Auth\Services\LoginService;
 use App\Features\Auth\Responses\LoginResponse;
-use App\Features\Auth\Requests\LogoutRequest;
+
 use App\Features\Auth\Services\LogoutService;
 use App\Features\Auth\Responses\LogoutResponse;
 
@@ -20,9 +23,7 @@ use App\Features\Auth\Responses\LogoutResponse;
 class AuthController
 {    
     /**
-     * Method store
-     *
-     * Controlls user registertaion flow
+     * Register
      * 
      * @param RegisterRequest $request Dedicated form request
      * @param RegisterService $service Dedicated service [DI from ServiceContainer]
@@ -39,9 +40,7 @@ class AuthController
     }
     
     /**
-     * Method login
-     * 
-     * Controlls user logging in flow
+     * Login
      *
      * @param LoginRequest $request Dedicated form request
      * @param LoginService $service Dedicated service [DI from ServiceContainer]
@@ -58,16 +57,14 @@ class AuthController
     }
     
     /**
-     * Method logout
-     * 
-     * Controlls user logging out flow
+     * Logout
      *
-     * @param LogoutRequest $request Dedicated form request
+     * @param Request $request
      * @param LogoutService $service Dedicated service [DI from ServiceContainer]
      *
      * @return LogoutResponse
      */
-    public function logout(LogoutRequest $request, LogoutService $service): LogoutResponse
+    public function logout(Request $request, LogoutService $service): LogoutResponse
     {
         $user = $service->logoutUser($request->user());
 
