@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Features\Auth\Resources;
+namespace App\Features\Auth\Responses;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Features\Auth\Models\User;
+use App\Features\Auth\Resources\UserResource;
 
 
 /**
@@ -12,7 +12,7 @@ use App\Features\Auth\Models\User;
  * 
  * Performs logged in user and token serilization for responsing
  * 
- * @mixin User
+ * @mixin UserResource
  */
 class LoginResponse extends JsonResource
 {
@@ -24,11 +24,9 @@ class LoginResponse extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => [
-                'id' => $this->resource['user']->id,
-                'email' => $this->resource['user']->email,
-            ],
-            'token' => $this->resource['token']
+            'message' => 'User logged in successfully.',
+            'user' => new UserResource($this->resource),
+            'token' => $this->resource["token"]
         ];
     }
 }

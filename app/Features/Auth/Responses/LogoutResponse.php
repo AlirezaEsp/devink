@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Features\Auth\Resources;
+namespace App\Features\Auth\Responses;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Features\Auth\Models\User;
+use App\Features\Auth\Resources\UserResource;
+
 
 /**
  * LogoutResponse
  * 
  * Performs logged out user model serilization for responsing
  * 
- * @mixin User
+ * @mixin UserResource
  */
 class LogoutResponse extends JsonResource
 {
@@ -23,11 +24,8 @@ class LogoutResponse extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => [
-                'id' => $this->resource->id,
-                'email' => $this->resource->email,
-            ],
-            'message' => 'Logged out successfully.'
+            'message' => 'User logged out successfully.',
+            'user' => new UserResource($this->resource)
         ];
     }
 }
