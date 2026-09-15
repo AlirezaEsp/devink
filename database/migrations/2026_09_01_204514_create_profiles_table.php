@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
 
-            $table->string('username')->unique();
-            $table->string('full_name');
+            $table->string('username', 255)->unique();
+            $table->string('full_name', 255);
             $table->text('bio')->nullable();
             $table->string('avatar')->nullable();
 
