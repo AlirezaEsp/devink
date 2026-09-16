@@ -23,12 +23,12 @@ class UserDetailedResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->resource["id"],
-            'email' => $this->resource["email"],
-            'created_at' => $this->resource["created_at"],
-            'updated_at' => $this->resource["updated_at"],
-            'email_verified_at' => $this->resource["email_verified_at"],
-            'last_login_at' => $this->resource["last_login_at"],
+            'id' => $this->id,
+            'email' => $this->email,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'email_verified_at' => $this->email_verified_at,
+            'last_login_at' => $this->last_login_at,
         ];
     }
 }
