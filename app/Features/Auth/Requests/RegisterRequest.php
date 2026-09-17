@@ -28,6 +28,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // user
             'email' => [
                 'required',
                 'string',
@@ -40,6 +41,27 @@ class RegisterRequest extends FormRequest
                 'string',
                 'min:8',
                 'confirmed'
+            ],
+
+            //profile
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:profiles,username'
+            ],
+            'full_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
+            'bio' => [
+                'nullable',
+                'string'
+            ],
+            'avatar' => [
+                'nullable',
+                'string'
             ]
         ];
     }
