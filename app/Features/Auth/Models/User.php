@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
@@ -40,5 +41,19 @@ class User extends Authenticatable
      */
     public function profile(): HasOne {
         return $this->hasOne(Profile::class);
+    }
+
+    protected static function booted (): void {
+        static::deleting(function (User $user) : void {
+            if ($user->isForceDeleting()) {
+                $user->profile()->withTrashed()->forceDelete();
+            } else {
+                $user->profile()->delete();
+            }
+        });
+
+        static::restoring(function (User $user) : void {
+            $user->profile()->withTrashed()->restore();
+        });
     }
 }
