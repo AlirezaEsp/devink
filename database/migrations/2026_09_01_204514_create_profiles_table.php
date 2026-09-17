@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
-
             $table->string('username', 255)->unique();
             $table->string('full_name', 255);
             $table->text('bio')->nullable();
             $table->string('avatar')->nullable();
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
