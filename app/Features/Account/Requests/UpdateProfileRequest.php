@@ -27,13 +27,13 @@ class UpdateProfileRequest extends FormRequest
 
         return [
             'username' => [
-                'required',
+                'nullable',
                 'string',
                 'max:255',
                 Rule::unique('profiles', 'username')->ignore($profileId),
             ],
             'full_name' => [
-                'required',
+                'nullable',
                 'string',
                 'max:255'
             ],
