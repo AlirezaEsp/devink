@@ -3,16 +3,12 @@
 namespace App\Features\Auth\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Services\RegisterService;
 use App\Features\Auth\Responses\RegisterResponse;
-
 use App\Features\Auth\Requests\LoginRequest;
 use App\Features\Auth\Services\LoginService;
 use App\Features\Auth\Responses\LoginResponse;
-
-use App\Features\Auth\Services\LogoutService;
 use App\Features\Auth\Responses\LogoutResponse;
 
 /**
@@ -30,7 +26,7 @@ class AuthController
      *
      * @return RegisterResponse
      */
-    public function store(RegisterRequest $request, RegisterService $service): RegisterResponse
+    public function register(RegisterRequest $request, RegisterService $service): RegisterResponse
     {
         $user = $service->registerUser(
             $request->validated()

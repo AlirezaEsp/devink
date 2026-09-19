@@ -3,7 +3,6 @@
 namespace App\Features\Auth\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
-
 use App\Features\Auth\Models\User;
 
 class UserRegistered
