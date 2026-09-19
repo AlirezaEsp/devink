@@ -32,11 +32,11 @@ class AuthController
      */
     public function store(RegisterRequest $request, RegisterService $service): RegisterResponse
     {
-        $user_array = $service->registerUser(
+        $user = $service->registerUser(
             $request->validated()
         );
 
-        return new RegisterResponse($user_array);
+        return new RegisterResponse($user);
     }
     
     /**
@@ -60,16 +60,15 @@ class AuthController
      * Logout
      *
      * @param Request $request
-     * @param LogoutService $service Dedicated service [DI from ServiceContainer]
      *
      * @return LogoutResponse
      */
-    public function logout(Request $request, LogoutService $service): LogoutResponse
+    public function logout(Request $request): LogoutResponse
     {
-        $user_array = $service->logoutUser(
-            $request->user()
-        );
+        $user = $request->user();
 
-        return new LogoutResponse($user_array);
+        $user->currentAccessToken()->delete();
+
+        return new LogoutResponse($user);
     }
 }
