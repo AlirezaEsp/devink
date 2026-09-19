@@ -26,7 +26,7 @@ class RegisterResponse extends JsonResource
     {
         return [
             'message' => 'User registered successfully.',
-            'user' => new UserDetailedResource($this->resource['user'])
+            'user' => new UserDetailedResource($this->resource)
         ];
     }
 

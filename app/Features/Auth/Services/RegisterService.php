@@ -20,9 +20,9 @@ class RegisterService
      *
      * @param array $data Valiadated user fillable data came from LoginRequest
      *
-     * @return array array containing the user
+     * @return User Registered user instance
      */
-    public function registerUser(array $data): array {
+    public function registerUser(array $data): User {
         return DB::transaction(function () use ($data) {
             // add user to db
             $user = User::create([
@@ -42,9 +42,7 @@ class RegisterService
             );
 
             // return user + profile
-            return [
-                'user' => $user->load('profile')
-            ];
+            return $user->load('profile');
         });
     }
 }
