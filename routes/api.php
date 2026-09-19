@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
+
 use App\Features\Auth\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
 
@@ -15,9 +16,8 @@ Route::prefix('v1')->group(function () {
 
     // Account routes: profile
     Route::prefix('account')->name('account.')->group(function () {
-        // Profile routes: store, show, update
-        Route::name('profile.')->middleware('api:sanctume')->group(function () {
-            Route::post('profile', [ProfileController::class, 'store'])->name('store');
+        // Private profile routes: show, update
+        Route::name('profile.')->middleware('auth:sanctum')->group(function () {
             Route::get('profile', [ProfileController::class, 'show'])->name('show');
             Route::patch('profile', [ProfileController::class, 'update'])->name('update');
         });
