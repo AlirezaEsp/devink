@@ -13,6 +13,7 @@ use App\Features\Auth\Responses\LogoutResponse;
 use App\Features\Auth\Requests\UpdateUserRequest;
 use App\Features\Auth\Services\UpdateUserService;
 use App\Features\Auth\Responses\UpdateUserResponse;
+use App\Features\Auth\Resources\UserDetailedResource;
 
 /**
  * AuthController
@@ -55,6 +56,18 @@ class AuthController
         return new LoginResponse($user_array);
     }
     
+    /**
+     * Show
+     *
+     * @param Request $request Request coming from client
+     *
+     * @return UserDetailedResource
+     */
+    public function show(Request $request): UserDetailedResource
+    {
+        return new UserDetailedResource($request->user());
+    }
+
     /**
      * Logout
      *
