@@ -5,6 +5,7 @@ namespace App\Features\Account\Services;
 use App\Features\Account\Models\Profile;
 use App\Features\Auth\Models\User;
 
+
 /**
  * UpdateProfileService
  * 
@@ -22,7 +23,15 @@ class UpdateProfileService
      */
     public function updateProfile(User $user, array $data): Profile
     {
+        // find profile
         $profile = $user->profile;
+
+        // lowercase username
+        if (isset($data['username'])) {
+            $data['username'] = strtolower($data['username']);
+        }
+
+        // update profile
         $profile->update($data);
 
         return $profile->refresh();
