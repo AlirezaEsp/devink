@@ -54,7 +54,7 @@ class ProfileController
      */
     public function showPublic(string $username): PublicProfileResource
     {
-        $profile = Profile::where('username', $username)->firstOrFail();
+        $profile = Profile::where('username', strtolower($username))->firstOrFail();
 
         return new PublicProfileResource($profile);
     }
