@@ -4,9 +4,11 @@ namespace App\Features\Account\Controllers;
 
 use Illuminate\Http\Request;
 use App\Features\Account\Resources\ProfileResource;
+use App\Features\Account\Resources\PublicProfileResource;
 use App\Features\Account\Requests\UpdateProfileRequest;
 use App\Features\Account\Services\UpdateProfileService;
 use App\Features\Account\Responses\UpdateProfileResponse;
+use App\Features\Account\Models\Profile;
 
 class ProfileController
 {    
@@ -41,5 +43,19 @@ class ProfileController
         );
 
         return new UpdateProfileResponse($profile);
+    }
+    
+    /**
+     * PublicShow
+     *
+     * @param string $username Username route parameter coming from url
+     *
+     * @return PublicProfileResource
+     */
+    public function showPublic(string $username): PublicProfileResource
+    {
+        $profile = Profile::where('username', $username)->firstOrFail();
+
+        return new PublicProfileResource($profile);
     }
 }
