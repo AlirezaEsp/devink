@@ -23,7 +23,7 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $profileId = $this->user()->profile->id;
+        $profileId = $this->user()?->profile?->id;
 
         return [
             'username' => [
