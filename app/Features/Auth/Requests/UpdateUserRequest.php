@@ -4,6 +4,8 @@ namespace App\Features\Auth\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateUserRequest extends FormRequest
 {
@@ -22,13 +24,15 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->user()?->id;
+
         return [
             'email' => [
                 'nullable',
                 'string',
                 'email',
                 'max:255',
-                'unique:users,email'
+                Rule::unique('users', 'email')->ignore($userId)
             ],
             'password' => [
                 'nullable',
