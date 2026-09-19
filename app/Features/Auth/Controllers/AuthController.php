@@ -10,6 +10,9 @@ use App\Features\Auth\Requests\LoginRequest;
 use App\Features\Auth\Services\LoginService;
 use App\Features\Auth\Responses\LoginResponse;
 use App\Features\Auth\Responses\LogoutResponse;
+use App\Features\Auth\Requests\UpdateUserRequest;
+use App\Features\Auth\Services\UpdateUserService;
+use App\Features\Auth\Responses\UpdateUserResponse;
 
 /**
  * AuthController
@@ -66,5 +69,23 @@ class AuthController
         $user->currentAccessToken()->delete();
 
         return new LogoutResponse($user);
+    }
+    
+    /**
+     * Update
+     *
+     * @param UpdateUserRequest $request Incoming request
+     * @param UpdateUserService $service Related Service
+     *
+     * @return UpdateUserResponse
+     */
+    public function update(UpdateUserRequest $request, UpdateUserService $service): UpdateUserResponse
+    {
+        $user = $service->updateUser(
+            $request->user(),
+            $request->validated()
+        );
+
+        return new UpdateUserResponse($user);
     }
 }
