@@ -9,10 +9,16 @@ use App\Features\Account\Controllers\ProfileController;
 Route::prefix('v1')->group(function () {
     // Authentication routes: register, login, logout
     Route::prefix('auth')->name('auth.')->group(function () {
+        // without auth
         Route::post('register', [AuthController::class, 'register'])->name('register');
         Route::post('login', [AuthController::class, 'login'])->name('login');
-        Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
-        Route::post('update', [AuthController::class, 'update'])->name('update')->middleware('auth:sanctum');
+
+        // with auth
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+            Route::get('show', [AuthController::class, 'show'])->name('show');
+            Route::post('update', [AuthController::class, 'update'])->name('update');
+        });
     });
 
     // Account routes: profile
