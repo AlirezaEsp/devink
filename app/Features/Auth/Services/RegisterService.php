@@ -26,7 +26,7 @@ class RegisterService
         return DB::transaction(function () use ($data) {
             // add user to db
             $user = User::create([
-                'email' => $data['email'],
+                'email' => strtolower($data['email']),
                 'password' => Hash::make($data['password'])
             ]);
 
@@ -34,7 +34,7 @@ class RegisterService
             UserRegistered::dispatch(
                 $user,
                 [
-                    'username' => $data['username'],
+                    'username' => strtolower($data['username']),
                     'full_name' => $data['full_name'],
                     'bio' => $data['bio'] ?? null,
                     'avatar' => $data['avatar'] ?? null,
