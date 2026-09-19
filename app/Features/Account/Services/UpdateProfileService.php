@@ -20,7 +20,7 @@ class UpdateProfileService
      *
      * @return Profile
      */
-    public function update(User $user, array $data): Profile
+    public function updateProfile(User $user, array $data): Profile
     {
         $profile = $user->profile;
         $profile->update($data);

@@ -35,7 +35,7 @@ class ProfileController
      */
     public function update(UpdateProfileRequest $request, UpdateProfileService $service): UpdateProfileResponse
     {
-        $profile = $service->update(
+        $profile = $service->updateProfile(
             $request->user(),
             $request->validated(),
         );
