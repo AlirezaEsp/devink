@@ -21,5 +21,10 @@ Route::prefix('v1')->group(function () {
             Route::get('profile', [ProfileController::class, 'show'])->name('show');
             Route::patch('profile', [ProfileController::class, 'update'])->name('update');
         });
+
+        // Public profile routes: showpublic
+        Route::name('profile.')->group(function () {
+            Route::get('profile/{username}', [ProfileController::class, 'showPublic'])->name('show.public');
+        });
     });
 });
