@@ -4,6 +4,7 @@ namespace App\Features\Account\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -22,12 +23,14 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules(): array
     {
+        $profileId = $this->user()->profile->id;
+
         return [
             'username' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:profiles,username'
+                Rule::unique('profiles', 'username')->ignore($profileId),
             ],
             'full_name' => [
                 'required',
