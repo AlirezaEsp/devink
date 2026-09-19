@@ -24,7 +24,15 @@ class ProfileController
 
         return new ProfileResource($profile);
     }
-
+    
+    /**
+     * Update
+     *
+     * @param UpdateProfileRequest $request Request coming from client
+     * @param UpdateProfileService $service Related Service
+     *
+     * @return UpdateProfileResponse
+     */
     public function update(UpdateProfileRequest $request, UpdateProfileService $service): UpdateProfileResponse
     {
         $profile = $service->update(
