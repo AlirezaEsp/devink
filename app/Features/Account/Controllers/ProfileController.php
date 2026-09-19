@@ -4,6 +4,9 @@ namespace App\Features\Account\Controllers;
 
 use Illuminate\Http\Request;
 use App\Features\Account\Resources\ProfileResource;
+use App\Features\Account\Requests\UpdateProfileRequest;
+use App\Features\Account\Services\UpdateProfileService;
+use App\Features\Account\Responses\UpdateProfileResponse;
 
 class ProfileController
 {    
@@ -20,5 +23,15 @@ class ProfileController
         $profile = $request->user()->profile;
 
         return new ProfileResource($profile);
+    }
+
+    public function update(UpdateProfileRequest $request, UpdateProfileService $service): UpdateProfileResponse
+    {
+        $profile = $service->update(
+            $request->user(),
+            $request->validated(),
+        );
+
+        return new UpdateProfileResponse($profile);
     }
 }
