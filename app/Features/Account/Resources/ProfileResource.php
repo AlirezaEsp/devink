@@ -2,9 +2,9 @@
 
 namespace App\Features\Account\Resources;
 
-use App\Features\Account\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Features\Account\Models\Profile;
 
 /**
  * ProfileResource
@@ -28,7 +28,8 @@ class ProfileResource extends JsonResource
                 'user_id' => $this->user_id,
                 'full_name' => $this->full_name,
                 'bio' => $this->bio,
-                'avatar' => $this->avatar
+                'avatar' => $this->avatar,
+                'updated_at' => $this->updated_at
             ]
         ];
     }
