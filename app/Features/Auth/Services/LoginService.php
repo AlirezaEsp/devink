@@ -22,7 +22,7 @@ class LoginService
      */
     public function loginUser(array $credentials): array {
         // find user
-        $user = User::where('email', $credentials['email'])->first();
+        $user = User::where('email', strtolower($credentials['email']))->first();
 
         // check for password
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
