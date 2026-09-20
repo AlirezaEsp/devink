@@ -42,7 +42,7 @@ class RegisterService
             );
 
             // return user + profile
-            return $user->load('profile');
+            return $user;
         });
     }
 }
