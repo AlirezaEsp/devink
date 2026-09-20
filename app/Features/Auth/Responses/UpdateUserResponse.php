@@ -21,7 +21,7 @@ class UpdateUserResponse extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'mesage' => 'User informations updated successfully.',
+            'message' => 'User informations updated successfully.',
             'user' => new UserDetailedResource($this->resource)
         ];
     }
