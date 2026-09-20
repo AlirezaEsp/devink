@@ -55,18 +55,6 @@ class AuthController
 
         return new LoginResponse($user_array);
     }
-    
-    /**
-     * Show
-     *
-     * @param Request $request Request coming from client
-     *
-     * @return UserDetailedResource
-     */
-    public function show(Request $request): UserDetailedResource
-    {
-        return new UserDetailedResource($request->user());
-    }
 
     /**
      * Logout
@@ -83,7 +71,19 @@ class AuthController
 
         return new LogoutResponse($user);
     }
-    
+
+    /**
+     * Show
+     *
+     * @param Request $request Request coming from client
+     *
+     * @return UserDetailedResource
+     */
+    public function show(Request $request): UserDetailedResource
+    {
+        return new UserDetailedResource($request->user());
+    }
+
     /**
      * Update
      *
