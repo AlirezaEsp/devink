@@ -2,7 +2,9 @@
 
 namespace App\Features\Auth\Controllers;
 
+use App\Features\Auth\Responses\ResetPasswordResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Services\RegisterService;
 use App\Features\Auth\Responses\RegisterResponse;
@@ -14,6 +16,10 @@ use App\Features\Auth\Requests\UpdateUserRequest;
 use App\Features\Auth\Services\UpdateUserService;
 use App\Features\Auth\Responses\UpdateUserResponse;
 use App\Features\Auth\Resources\UserDetailedResource;
+use App\Features\Auth\Requests\ForgotPasswordRequest;
+use App\Features\Auth\Responses\ForgotPasswordResponse;
+use App\Features\Auth\Requests\ResetPasswordRequest;
+use App\Features\Auth\Services\ResetPasswordService;
 
 /**
  * AuthController
@@ -54,6 +60,42 @@ class AuthController
         );
 
         return new LoginResponse($user_array);
+    }
+    
+    /**
+     * ForgotPassword
+     *
+     * @param ForgotPasswordRequest $request Request coming from client
+     *
+     * @return ForgotPasswordResponse
+     */
+    public function forgotPassword(ForgotPasswordRequest $request): ForgotPasswordResponse
+    {
+        $status = Password::sendResetLink($request->only('email'));
+
+        return new ForgotPasswordResponse($status);
+    }
+    
+    /**
+     * ResetPassword
+     *
+     * @param ResetPasswordRequest $request Request coming from client
+     * @param ResetPasswordService $service Related service
+     *
+     * @return mixed
+     */
+    public function resetPassword(ResetPasswordRequest $request, ResetPasswordService $service): mixed
+    {
+        $result = $service->resetPassword($request->validated());
+
+        // return 422 if process failed
+        if ($result['status'] !== Password::PASSWORD_RESET) {
+            return response()->json([
+                'message' => __($result['status']),
+            ], 422);
+        }
+
+        return new ResetPasswordResponse($result);
     }
 
     /**
