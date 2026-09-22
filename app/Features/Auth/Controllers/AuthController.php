@@ -2,7 +2,6 @@
 
 namespace App\Features\Auth\Controllers;
 
-use App\Features\Auth\Responses\ResetPasswordResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use App\Features\Auth\Requests\RegisterRequest;
@@ -17,9 +16,11 @@ use App\Features\Auth\Services\UpdateUserService;
 use App\Features\Auth\Responses\UpdateUserResponse;
 use App\Features\Auth\Resources\UserDetailedResource;
 use App\Features\Auth\Requests\ForgotPasswordRequest;
+use App\Features\Auth\Services\ForgotPasswordService;
 use App\Features\Auth\Responses\ForgotPasswordResponse;
 use App\Features\Auth\Requests\ResetPasswordRequest;
 use App\Features\Auth\Services\ResetPasswordService;
+use App\Features\Auth\Responses\ResetPasswordResponse;
 
 /**
  * AuthController
@@ -69,11 +70,11 @@ class AuthController
      *
      * @return ForgotPasswordResponse
      */
-    public function forgotPassword(ForgotPasswordRequest $request): ForgotPasswordResponse
+    public function forgotPassword(ForgotPasswordRequest $request, ForgotPasswordService $service): ForgotPasswordResponse
     {
-        $status = Password::sendResetLink($request->only('email'));
+        $result = $service->forgotPassword($request->only('email'));
 
-        return new ForgotPasswordResponse($status);
+        return new ForgotPasswordResponse($result);
     }
     
     /**
@@ -91,7 +92,7 @@ class AuthController
         // return 422 if process failed
         if ($result['status'] !== Password::PASSWORD_RESET) {
             return response()->json([
-                'message' => __($result['status']),
+                'message' => __("The credentials are not not valid."),
             ], 422);
         }
 
