@@ -1,7 +1,3 @@
-# Feature Name
-
-<!-- What is the name of the feature? -->
-
 ## Description
 
 <!--
