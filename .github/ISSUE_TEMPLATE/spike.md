@@ -31,7 +31,7 @@ What should Devink do based on the findings?
 
 ## Acceptance Criteria
 
-* [ ] The question has been investigated
-* [ ] Relevant findings are documented
-* [ ] A clear conclusion or decision has been reached
-* [ ] Relevant documentation or ADR is updated if needed
+* The question has been investigated
+* Relevant findings are documented
+* A clear conclusion or decision has been reached
+* Relevant documentation or ADR is updated if needed

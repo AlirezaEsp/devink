@@ -4,9 +4,9 @@
 
 ## Acceptance Criteria
 
-* [ ]
-* [ ]
-* [ ]
+* 
+* 
+* 
 
 ## Technical Notes
 

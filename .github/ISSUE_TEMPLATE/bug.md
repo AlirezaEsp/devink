@@ -24,6 +24,6 @@ Environment, relevant endpoint, error message, logs, screenshots, or other usefu
 
 ## Acceptance Criteria
 
-* [ ] The reported problem is resolved
-* [ ] The expected behavior is verified
-* [ ] No related functionality is broken
+* The reported problem is resolved
+* The expected behavior is verified
+* No related functionality is broken
