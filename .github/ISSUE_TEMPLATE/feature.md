@@ -13,19 +13,13 @@ Each functionality should describe a distinct capability.
 -->
 
 ### 
-* 
-* 
-* 
+<!-- description -->
 
 ### 
-* 
-* 
-* 
+<!-- description -->
 
 ### 
-* 
-* 
-* 
+<!-- description -->
 
 ## Out of Scope
 
