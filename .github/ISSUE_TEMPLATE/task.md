@@ -10,8 +10,8 @@
 
 ## Technical Notes
 
-*
-*
-*
+* 
+* 
+* 
 
 <!-- Optional implementation details, references, or constraints. -->
