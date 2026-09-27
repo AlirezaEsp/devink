@@ -16,7 +16,7 @@ use App\Features\Account\Models\Profile;
 use App\Features\Auth\Notifications\PasswordResetNotification;
 
 #[Fillable(['email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Hidden(['password'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
