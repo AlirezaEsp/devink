@@ -3,7 +3,7 @@
 namespace App\Features\Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
+use Database\Factories\Features\Auth\Models\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,7 +48,14 @@ class User extends Authenticatable
     public function profile(): HasOne {
         return $this->hasOne(Profile::class);
     }
-
+    
+    /**
+     * Method booted
+     * 
+     * Sync User and Profile model delete and restore
+     *
+     * @return void
+     */
     protected static function booted (): void {
         static::deleting(function (User $user) : void {
             if ($user->isForceDeleting()) {
