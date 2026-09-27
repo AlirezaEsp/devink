@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Features\Auth\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Features\Auth\Models\User;
+use App\Features\Account\Models\Profile;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +16,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $testUser = User::factory()->create([
+            'email' => 'user@example.com',
+            'password' => 'stringst'
         ]);
+
+        $testUser->profile()->create([
+            'user_id' => $testUser->id,
+            'username' => 'string',
+            'full_name' => 'string',
+            'bio' => 'string',
+            'avatar' => 'string'
+        ]);
+
+        $mockUsers = User::factory(9)->create();
+
+        foreach ($mockUsers as $mockUser) {
+            Profile::factory()->for($mockUser)->create();
+        }
     }
 }
