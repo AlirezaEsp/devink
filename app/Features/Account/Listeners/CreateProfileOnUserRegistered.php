@@ -2,7 +2,7 @@
 
 namespace App\Features\Account\Listeners;
 
-use App\Features\Auth\Events\UserRegistered;
+use App\Features\Account\Events\UserRegistered;
 
 class CreateProfileOnUserRegistered
 {

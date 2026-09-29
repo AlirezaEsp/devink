@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Features\Auth\Requests;
+namespace App\Features\Account\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetPasswordRequest extends FormRequest
+class ForgotPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,13 +13,6 @@ class ResetPasswordRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-    }
-
-    public function prepareForValidation(): void
-    {
-        $this->merge([
-            'email' => strtolower(trim($this->input('email')))
-        ]);
     }
 
     /**
@@ -30,22 +23,12 @@ class ResetPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'token' => [
-                'required',
-                'string'
-            ],
             'email' => [
                 'required',
                 'string',
                 'email',
-                'max:255',
-            ],
-            'password' => [
-                'required',
-                'string',
-                'min:8',
-                'confirmed',
-            ],
+                'max:255'
+            ]
         ];
     }
 }

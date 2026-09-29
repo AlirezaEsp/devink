@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Features\Auth\Services;
+namespace App\Features\Account\Services;
 
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
 

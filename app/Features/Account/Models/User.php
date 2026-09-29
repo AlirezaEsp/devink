@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Features\Auth\Models;
+namespace App\Features\Account\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\Features\Auth\Models\UserFactory;
+use Database\Factories\Features\Account\Models\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Features\Account\Models\Profile;
-use App\Features\Auth\Notifications\PasswordResetNotification;
+use App\Features\Account\Notifications\PasswordResetNotification;
 
 #[Fillable(['email', 'password'])]
 #[Hidden(['password'])]

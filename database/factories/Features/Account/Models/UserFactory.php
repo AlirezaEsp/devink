@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories\Features\Auth\Models;
+namespace Database\Factories\Features\Account\Models;
 
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 

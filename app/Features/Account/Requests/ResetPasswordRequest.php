@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Features\Auth\Requests;
+namespace App\Features\Account\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-
-class UpdateUserRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,9 +15,10 @@ class UpdateUserRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation() : void {
+    public function prepareForValidation(): void
+    {
         $this->merge([
-            'email' => strtolower(trim($this->input('email'))),
+            'email' => strtolower(trim($this->input('email')))
         ]);
     }
 
@@ -30,21 +29,22 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->user()?->id;
-
         return [
+            'token' => [
+                'required',
+                'string'
+            ],
             'email' => [
-                'nullable',
+                'required',
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($userId)
             ],
             'password' => [
-                'nullable',
+                'required',
                 'string',
                 'min:8',
-                'confirmed'
+                'confirmed',
             ],
         ];
     }

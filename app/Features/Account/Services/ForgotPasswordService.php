@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Features\Auth\Services;
+namespace App\Features\Account\Services;
 
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 

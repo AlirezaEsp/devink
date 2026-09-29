@@ -4,7 +4,7 @@ namespace Database\Factories\Features\Account\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Features\Account\Models\Profile;
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 
 /**
  * @extends Factory<Profile>

@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
-use App\Features\Auth\Events\UserRegistered;
+use App\Features\Account\Events\UserRegistered;
 use App\Features\Account\Listeners\CreateProfileOnUserRegistered;
 
 class AppServiceProvider extends ServiceProvider

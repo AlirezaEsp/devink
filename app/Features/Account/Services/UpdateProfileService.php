@@ -3,7 +3,7 @@
 namespace App\Features\Account\Services;
 
 use App\Features\Account\Models\Profile;
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 
 
 /**

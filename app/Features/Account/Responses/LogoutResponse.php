@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Features\Auth\Responses;
+namespace App\Features\Account\Responses;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Features\Auth\Resources\UserResource;
+use App\Features\Account\Resources\UserResource;
 
 
 /**

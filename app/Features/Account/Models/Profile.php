@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 use Database\Factories\Features\Account\Models\ProfileFactory;
 
 #[Fillable(['username', 'full_name', 'bio', 'avatar'])]

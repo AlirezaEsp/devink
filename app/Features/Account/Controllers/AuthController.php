@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Features\Auth\Controllers;
+namespace App\Features\Account\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use App\Features\Auth\Requests\RegisterRequest;
-use App\Features\Auth\Services\RegisterService;
-use App\Features\Auth\Responses\RegisterResponse;
-use App\Features\Auth\Requests\LoginRequest;
-use App\Features\Auth\Services\LoginService;
-use App\Features\Auth\Responses\LoginResponse;
-use App\Features\Auth\Responses\LogoutResponse;
-use App\Features\Auth\Requests\UpdateUserRequest;
-use App\Features\Auth\Services\UpdateUserService;
-use App\Features\Auth\Responses\UpdateUserResponse;
-use App\Features\Auth\Resources\UserDetailedResource;
-use App\Features\Auth\Requests\ForgotPasswordRequest;
-use App\Features\Auth\Services\ForgotPasswordService;
-use App\Features\Auth\Responses\ForgotPasswordResponse;
-use App\Features\Auth\Requests\ResetPasswordRequest;
-use App\Features\Auth\Services\ResetPasswordService;
-use App\Features\Auth\Responses\ResetPasswordResponse;
+use App\Features\Account\Requests\RegisterRequest;
+use App\Features\Account\Services\RegisterService;
+use App\Features\Account\Responses\RegisterResponse;
+use App\Features\Account\Requests\LoginRequest;
+use App\Features\Account\Services\LoginService;
+use App\Features\Account\Responses\LoginResponse;
+use App\Features\Account\Responses\LogoutResponse;
+use App\Features\Account\Requests\UpdateUserRequest;
+use App\Features\Account\Services\UpdateUserService;
+use App\Features\Account\Responses\UpdateUserResponse;
+use App\Features\Account\Resources\UserDetailedResource;
+use App\Features\Account\Requests\ForgotPasswordRequest;
+use App\Features\Account\Services\ForgotPasswordService;
+use App\Features\Account\Responses\ForgotPasswordResponse;
+use App\Features\Account\Requests\ResetPasswordRequest;
+use App\Features\Account\Services\ResetPasswordService;
+use App\Features\Account\Responses\ResetPasswordResponse;
 
 /**
  * AuthController

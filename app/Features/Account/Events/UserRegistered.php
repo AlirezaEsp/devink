@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Features\Auth\Events;
+namespace App\Features\Account\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 
 class UserRegistered
 {

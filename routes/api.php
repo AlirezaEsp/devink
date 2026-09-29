@@ -3,7 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Features\Auth\Controllers\AuthController;
+use App\Features\Account\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
 
 Route::prefix('v1')->group(function () {

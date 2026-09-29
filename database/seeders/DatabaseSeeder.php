@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 use App\Features\Account\Models\Profile;
 
 class DatabaseSeeder extends Seeder

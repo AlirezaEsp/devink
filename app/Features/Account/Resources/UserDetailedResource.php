@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Features\Auth\Resources;
+namespace App\Features\Account\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Features\Auth\Models\User;
+use App\Features\Account\Models\User;
 
 /**
  * UserDetailedResource

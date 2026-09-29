@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Features\Auth\Services;
+namespace App\Features\Account\Services;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-use App\Features\Auth\Models\User;
-use App\Features\Auth\Events\UserRegistered;
+use App\Features\Account\Models\User;
+use App\Features\Account\Events\UserRegistered;
 
 /**
  * RegisterService
