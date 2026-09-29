@@ -42,6 +42,9 @@ class UserFactory extends Factory
         ]);
     }
 
+    /**
+     * Indicate that the model's deleted_at field should be true.
+     */
     public function deleted(): static
     {
         return $this->state(fn (array $attributes) => [
