@@ -25,10 +25,15 @@ class UserDetailedResource extends JsonResource
         return [
             'id' => $this->id,
             'email' => $this->email,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'email_verified_at' => $this->email_verified_at,
             'last_login_at' => $this->last_login_at,
+            'username' => $this->username,
+            'full_name' => $this->full_name,
+            'bio' => $this->bio,
+            'avatar' => $this->avatar,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }
