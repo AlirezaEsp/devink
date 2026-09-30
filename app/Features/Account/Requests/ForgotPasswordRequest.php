@@ -15,6 +15,13 @@ class ForgotPasswordRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'email' => strtolower(trim($this->input('email')))
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
