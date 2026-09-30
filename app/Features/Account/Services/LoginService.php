@@ -2,9 +2,9 @@
 
 namespace App\Features\Account\Services;
 
-use App\Features\Account\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
+use App\Features\Account\Models\User;
 
 /**
  * LoginService
@@ -22,12 +22,12 @@ class LoginService
      */
     public function loginUser(array $credentials): array {
         // find user
-        $user = User::where('email', strtolower($credentials['email']))->first();
+        $user = User::query()->where('email', $credentials['email'])->first();
 
         // check for password
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             throw new AuthenticationException(
-                'The provided credentials is not valid.'
+                'The provided credentials are not valid.'
             );
         }
 
