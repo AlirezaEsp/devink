@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
@@ -17,14 +16,16 @@ function registrationPayload(array $overrides = []) : array {
         "password_confirmation" => "stringst"
     ], $overrides);
 }
-$registrationUrl = '/api/v1/auth/register';
+function registrationUrl(): string {
+    return route('accounts.auth.register');
+}
 
-describe('Registration', function () use ($registrationUrl) {
+describe('Registration', function () {
 
-    describe('Success', function () use ($registrationUrl) {
+    describe('Success', function () {
 
-        it('registers a user successfully.', function () use ($registrationUrl) {
-            $response = postJson($registrationUrl, registrationPayload());
+        it('registers a user successfully.', function () {
+            $response = postJson(registrationUrl(), registrationPayload());
 
             $response->
                 assertCreated()->
@@ -49,16 +50,16 @@ describe('Registration', function () use ($registrationUrl) {
                 ]);
             
             $this->
-                assertDatabaseHas('profiles', [
+                assertDatabaseHas('users', [
                     'username' => 'string'
                 ]);
         });
     });
 
-    describe('Validation Failure', function () use ($registrationUrl) {
+    describe('Validation Failure', function () {
 
-        it('rejects an unvalid email.', function () use ($registrationUrl) {
-            $response = postJson($registrationUrl, registrationPayload([
+        it('rejects an unvalid email.', function () {
+            $response = postJson(registrationUrl(), registrationPayload([
                 'email' => 'userexamplecom'
             ]));
 
@@ -67,8 +68,8 @@ describe('Registration', function () use ($registrationUrl) {
                 assertJsonValidationErrors(["email"]);
         });
 
-        it('rejects an email longer than 255 chars.', function () use ($registrationUrl) {
-            $response = postJson($registrationUrl, registrationPayload([
+        it('rejects an email longer than 255 chars.', function () {
+            $response = postJson(registrationUrl(), registrationPayload([
                 'email' => str_repeat('user', 70) . '@example.com'
             ]));
 
@@ -77,8 +78,8 @@ describe('Registration', function () use ($registrationUrl) {
                 assertJsonValidationErrors(['email']);
         });
 
-        it('rejects passwords shorter than 8 chars.', function () use ($registrationUrl) {
-            $response = postJson($registrationUrl, registrationPayload([
+        it('rejects passwords shorter than 8 chars.', function () {
+            $response = postJson(registrationUrl(), registrationPayload([
                 'password' => '1234567',
                 'password_confirmation' => '1234567'
             ]));
@@ -88,8 +89,8 @@ describe('Registration', function () use ($registrationUrl) {
                 assertJsonValidationErrors(['password']);
         });
 
-        it('rejects two mismatched passwords.', function () use ($registrationUrl) {
-            $response = postJson($registrationUrl, registrationPayload([
+        it('rejects two mismatched passwords.', function () {
+            $response = postJson(registrationUrl(), registrationPayload([
                 'password' => 'stringst',
                 'password_confirmation' => 'stringstX'
             ]));
@@ -99,8 +100,8 @@ describe('Registration', function () use ($registrationUrl) {
                 assertJsonValidationErrors(['password']);
         });
 
-        it('rejects an username longer than 255 chars.', function () use ($registrationUrl) {
-            $response = postJson($registrationUrl, registrationPayload([
+        it('rejects an username longer than 255 chars.', function () {
+            $response = postJson(registrationUrl(), registrationPayload([
                 'username' => str_repeat('string', 50)
             ]));
 
@@ -109,8 +110,8 @@ describe('Registration', function () use ($registrationUrl) {
                 assertJsonValidationErrors(['username']);
         });
 
-        it('rejects an full name longer than 255 chars.', function () use ($registrationUrl) {
-            $response = postJson($registrationUrl, registrationPayload([
+        it('rejects an full name longer than 255 chars.', function () {
+            $response = postJson(registrationUrl(), registrationPayload([
                 'full_name' => str_repeat('string', 50)
             ]));
 
@@ -120,17 +121,17 @@ describe('Registration', function () use ($registrationUrl) {
         });
     });
 
-    describe('Duplication Failure', function () use ($registrationUrl) {
+    describe('Duplication Failure', function () {
 
-        it('prevents registration of existing email.', function () use ($registrationUrl) {
-            $successfulResponse = postJson($registrationUrl, registrationPayload());
+        it('prevents registration of existing email.', function () {
+            $successfulResponse = postJson(registrationUrl(), registrationPayload());
 
             $this->
                 assertDatabaseHas('users', [
                     'email' => 'user@example.com'
                 ]);
 
-            $faultResponse = postJson($registrationUrl, registrationPayload([
+            $faultResponse = postJson(registrationUrl(), registrationPayload([
                 'username' => 'stringX'
             ]));
 
@@ -140,15 +141,15 @@ describe('Registration', function () use ($registrationUrl) {
 
         });
 
-        it('prevents registration of existing username.', function () use ($registrationUrl) {
-            $successfulResponse = postJson($registrationUrl, registrationPayload());
+        it('prevents registration of existing username.', function () {
+            $successfulResponse = postJson(registrationUrl(), registrationPayload());
 
             $this->
-                assertDatabaseHas('profiles', [
+                assertDatabaseHas('users', [
                     'username' => 'string'
                 ]);
 
-            $faultResponse = postJson($registrationUrl, registrationPayload([
+            $faultResponse = postJson(registrationUrl(), registrationPayload([
                 'email' => 'userX@example.com'
             ]));
 
