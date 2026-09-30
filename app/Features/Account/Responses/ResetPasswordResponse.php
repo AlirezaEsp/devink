@@ -4,12 +4,12 @@ namespace App\Features\Account\Responses;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Features\Account\Resources\UserDetailedResource;
+use App\Features\Account\Resources\UserResource;
 
 /**
  * ResetPasswordResponse
  * 
- * @mixin UserDetailedResource
+ * @mixin UserResource
  */
 class ResetPasswordResponse extends JsonResource
 {
@@ -22,7 +22,7 @@ class ResetPasswordResponse extends JsonResource
     {
         return [
             'message' => __($this->resource['status']),
-            'user' => new UserDetailedResource($this->resource['user'])
+            'user' => new UserResource($this->resource['user'])
         ];
     }
 }
