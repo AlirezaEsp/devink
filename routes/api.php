@@ -27,12 +27,12 @@ Route::prefix('v1')->group(function () {
         // Profile routes: profile
         Route::prefix('profile')->name('profile.')->group(function () {
             // Public profile routes: showpublic (without auth)
-            Route::get('profile/{username}', [ProfileController::class, 'showPublic'])->name('show.public');
+            Route::get('public/{username}', [ProfileController::class, 'showPublic'])->name('show.public');
 
             // Private profile routes: show, update (with auth)
             Route::middleware('auth:sanctum')->group(function () {
-                Route::get('profile', [ProfileController::class, 'show'])->name('show');
-                Route::patch('profile', [ProfileController::class, 'update'])->name('update');
+                Route::get('private', [ProfileController::class, 'show'])->name('show');
+                Route::patch('private', [ProfileController::class, 'update'])->name('update');
             });
         });
     });

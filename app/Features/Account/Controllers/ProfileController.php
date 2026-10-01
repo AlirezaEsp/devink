@@ -8,10 +8,24 @@ use App\Features\Account\Resources\PublicProfileResource;
 use App\Features\Account\Requests\UpdateProfileRequest;
 use App\Features\Account\Services\UpdateProfileService;
 use App\Features\Account\Responses\UpdateProfileResponse;
-use App\Features\Account\Models\Profile;
+use App\Features\Account\Models\User;
 
 class ProfileController
 {    
+    /**
+     * PublicShow
+     *
+     * @param string $username Username route parameter coming from url
+     *
+     * @return PublicProfileResource
+     */
+    public function showPublic(string $username): PublicProfileResource
+    {
+        $user = User::where('username', $username)->firstOrFail();
+
+        return new PublicProfileResource($user);
+    }
+
     /**
      * Show
      *
@@ -22,9 +36,9 @@ class ProfileController
     public function show(Request $request): ProfileResource
     {
         // find user's profile
-        $profile = $request->user()->profile;
+        $user = $request->user();
 
-        return new ProfileResource($profile);
+        return new ProfileResource($user);
     }
     
     /**
@@ -43,19 +57,5 @@ class ProfileController
         );
 
         return new UpdateProfileResponse($profile);
-    }
-    
-    /**
-     * PublicShow
-     *
-     * @param string $username Username route parameter coming from url
-     *
-     * @return PublicProfileResource
-     */
-    public function showPublic(string $username): PublicProfileResource
-    {
-        $profile = Profile::where('username', strtolower($username))->firstOrFail();
-
-        return new PublicProfileResource($profile);
     }
 }

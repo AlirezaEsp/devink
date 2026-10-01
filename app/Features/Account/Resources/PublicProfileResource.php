@@ -4,14 +4,14 @@ namespace App\Features\Account\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Features\Account\Models\Profile;
+use App\Features\Account\Models\User;
 
 /**
  * ProfileResource
  * 
  * Profile model seriailization
  * 
- * @mixin Profile
+ * @mixin User
  */
 class PublicProfileResource extends JsonResource
 {
