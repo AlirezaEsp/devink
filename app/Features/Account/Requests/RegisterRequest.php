@@ -58,14 +58,6 @@ class RegisterRequest extends FormRequest
                 'required',
                 'string',
                 'max:255'
-            ],
-            'bio' => [
-                'nullable',
-                'string'
-            ],
-            'avatar' => [
-                'nullable',
-                'string'
             ]
         ];
     }
