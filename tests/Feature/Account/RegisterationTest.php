@@ -11,8 +11,6 @@ function registrationPayload(array $overrides = []) : array {
         "password" => "stringst",
         "username" => "string",
         "full_name" => "string",
-        "bio" => "string",
-        "avatar" => "string",
         "password_confirmation" => "stringst"
     ], $overrides);
 }
@@ -29,15 +27,16 @@ describe('Registration', function () {
 
             $response->
                 assertCreated()->
-                assertJsonStructure([
+                assertExactJsonStructure([
                     "message",
                     "user" => [
                         "id",
                         "email",
-                        "created_at",
-                        "updated_at",
                         "email_verified_at",
                         "last_login_at",
+                        "created_at",
+                        "updated_at",
+                        "deleted_at"
                     ]
                 ])->
                 assertJson([
