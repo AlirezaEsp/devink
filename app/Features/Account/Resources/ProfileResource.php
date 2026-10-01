@@ -4,14 +4,14 @@ namespace App\Features\Account\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Features\Account\Models\Profile;
+use App\Features\Account\Models\User;
 
 /**
  * ProfileResource
  * 
  * Profile model seriailization
  * 
- * @mixin Profile
+ * @mixin User
  */
 class ProfileResource extends JsonResource
 {
@@ -23,11 +23,14 @@ class ProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'username' => $this->username,
             'full_name' => $this->full_name,
             'bio' => $this->bio,
             'avatar' => $this->avatar,
-            'updated_at' => $this->updated_at
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }
