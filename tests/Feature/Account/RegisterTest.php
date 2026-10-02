@@ -18,7 +18,7 @@ function registrationUrl(): string {
     return route('accounts.auth.register');
 }
 
-describe('Registration', function () {
+describe('Register', function () {
 
     describe('Success', function () {
 
@@ -57,7 +57,7 @@ describe('Registration', function () {
 
     describe('Validation Failure', function () {
 
-        it('rejects an unvalid email.', function () {
+        it('rejects an invalid email.', function () {
             $response = postJson(registrationUrl(), registrationPayload([
                 'email' => 'userexamplecom'
             ]));
@@ -158,5 +158,4 @@ describe('Registration', function () {
 
         });
     });
-
 });

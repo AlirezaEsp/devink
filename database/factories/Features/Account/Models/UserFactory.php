@@ -36,6 +36,18 @@ class UserFactory extends Factory
         ];
     }
 
+    // Returns and creates testing user with default info
+    public function defaultTestingUser(): static {
+        return $this->state(fn (array $attributes) => [
+            "email" => "user@example.com",
+            "password" => "stringst",
+            "username" => "string",
+            "full_name" => "string",
+            'bio' => null,
+            'avatar' => null,
+        ]);
+    }
+
     /**
      * Indicate that the model's email address should be verified.
      */
