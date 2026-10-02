@@ -29,14 +29,14 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $profileId = $this->user()?->profile?->id;
+        $userId = $this->user()?->id;
 
         return [
             'username' => [
                 'nullable',
                 'string',
                 'max:255',
-                Rule::unique('profiles', 'username')->ignore($profileId),
+                Rule::unique('users', 'username')->ignore($userId),
             ],
             'full_name' => [
                 'nullable',

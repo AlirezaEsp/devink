@@ -51,11 +51,11 @@ class ProfileController
      */
     public function update(UpdateProfileRequest $request, UpdateProfileService $service): UpdateProfileResponse
     {
-        $profile = $service->updateProfile(
+        $updatedUser = $service->updateProfile(
             $request->user(),
             $request->validated(),
         );
 
-        return new UpdateProfileResponse($profile);
+        return new UpdateProfileResponse($updatedUser);
     }
 }

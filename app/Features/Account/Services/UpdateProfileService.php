@@ -2,7 +2,6 @@
 
 namespace App\Features\Account\Services;
 
-use App\Features\Account\Models\Profile;
 use App\Features\Account\Models\User;
 
 
@@ -19,21 +18,18 @@ class UpdateProfileService
      * @param User $user User instance coming from request
      * @param array $data Profile new data to change
      *
-     * @return Profile
+     * @return User
      */
-    public function updateProfile(User $user, array $data): Profile
+    public function updateProfile(User $user, array $data): User
     {
-        // find profile
-        $profile = $user->profile;
-
         // lowercase username
         if (isset($data['username'])) {
             $data['username'] = strtolower($data['username']);
         }
 
         // update profile
-        $profile->update($data);
+        $user->update($data);
 
-        return $profile->refresh();
+        return $user->refresh();
     }
 }
