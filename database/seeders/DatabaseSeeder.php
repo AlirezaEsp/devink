@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Features\Account\Models\User;
-use App\Features\Account\Models\Profile;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,11 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $testUser = User::factory()->create([
             'email' => 'user@example.com',
-            'password' => 'stringst'
-        ]);
-
-        $testUser->profile()->create([
-            'user_id' => $testUser->id,
+            'password' => 'stringst',
             'username' => 'string',
             'full_name' => 'string',
             'bio' => 'string',
@@ -30,9 +25,5 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $mockUsers = User::factory(9)->create();
-
-        foreach ($mockUsers as $mockUser) {
-            Profile::factory()->for($mockUser)->create();
-        }
     }
 }
