@@ -62,4 +62,9 @@ class PasswordResetNotification extends Notification
             //
         ];
     }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
 }
