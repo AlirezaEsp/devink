@@ -99,7 +99,7 @@ class AuthController
         // return 422 if process failed
         if ($result['status'] !== Password::PASSWORD_RESET) {
             return response()->json([
-                'message' => __("The credentials are not not valid."),
+                'message' => __("The credentials are not valid."),
             ], 422);
         }
 
