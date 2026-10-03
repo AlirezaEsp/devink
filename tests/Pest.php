@@ -44,7 +44,8 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
-{
-    // ..
+function generateAuthHeader(string $token): array {
+    return [
+        'Authorization' => 'Bearer ' . $token
+    ];
 }

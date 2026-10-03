@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use function Pest\Laravel\postJson;
+use function Pest\Laravel\getJson;
 use App\Features\Account\Models\User;
 
 uses(RefreshDatabase::class);
 
-function logoutUrl(): string {
-    return route('accounts.auth.logout');
+function showUrl(): string {
+    return route('accounts.auth.show');
 }
 
 beforeEach(function () {
@@ -16,32 +16,27 @@ beforeEach(function () {
     $this->token = $this->user->createToken('api')->plainTextToken;
 });
 
-describe('Logout', function () {
+describe('Show', function () {
 
     describe('Success', function () {
 
-        it('logs out with a valid user access token.', function () {
-            // get the access token record associated with the current plain-text token.
-            $accessToken = $this->user->tokens()->latest()->first();
-
-            $response = postJson(logoutUrl(), [], generateAuthHeader($this->token));
+        it('shows a user authentication resource with a valid access token.', function () {
+            $response = getJson(showUrl(), generateAuthHeader($this->token));
 
             $response->
                 assertOk()->
                 assertExactJsonStructure([
-                    "message",
-                    "user" => [
-                        "id",
-                        "email",
-                    ],
+                    "id",
+                    "email",
+                    "email_verified_at",
+                    "last_login_at",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at",
                 ])->
                 assertJson([
-                    'message' => 'User logged out successfully.'
-                ]);
-            
-            $this->
-                assertDatabaseMissing('personal_access_tokens', [
-                    'id' => $accessToken->id
+                    'id' => $this->user->id,
+                    'email' => $this->user->email,
                 ]);
         });
     });
@@ -49,7 +44,7 @@ describe('Logout', function () {
     describe('Authentication Failure', function () {
 
         it('rejects an invalid token.', function () {
-            $response = postJson(logoutUrl(), [], generateAuthHeader($this->token . 'X'));
+            $response = getJson(showUrl(), generateAuthHeader($this->token . 'X'));
 
             $response->
                 assertUnauthorized()->
@@ -59,7 +54,7 @@ describe('Logout', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = postJson(logoutUrl());
+            $response = getJson(showUrl());
 
             $response
                 ->assertUnauthorized()
