@@ -69,11 +69,17 @@ class AuthController
      *
      * @param ForgotPasswordRequest $request Request coming from client
      *
-     * @return ForgotPasswordResponse
+     * @return mixed
      */
-    public function forgotPassword(ForgotPasswordRequest $request, ForgotPasswordService $service): ForgotPasswordResponse
+    public function forgotPassword(ForgotPasswordRequest $request, ForgotPasswordService $service): mixed
     {
         $result = $service->forgotPassword($request->only('email'));
+
+        if ($result !== Password::RESET_LINK_SENT) {
+            return response()->json([
+                'message' => __($result)
+            ], 422);
+        }
 
         return new ForgotPasswordResponse($result);
     }
