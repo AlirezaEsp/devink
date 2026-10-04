@@ -2,11 +2,14 @@
 
 namespace App\Features\Account\Controllers;
 
+use Dedoc\Scramble\Attributes\QueryParameter;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Services\RegisterService;
 use App\Features\Account\Responses\RegisterResponse;
+use App\Features\Account\Services\EmailVerificationService;
 use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Services\LoginService;
 use App\Features\Account\Responses\LoginResponse;
@@ -44,7 +47,36 @@ class AuthController
 
         return new RegisterResponse($registeredUser);
     }
-    
+
+    /**
+     * VerifyEmail
+     *
+     * @param EmailVerificationService $service related service
+     * @param int $id user id from path parameter
+     * @param string $hash user email hash from path parameter
+     *
+     * @return JsonResponse
+     */
+    #[QueryParameter(
+        'expires',
+        description: 'The expiration timestamp of the signed verification URL.',
+        type: 'integer',
+        required: true,
+    )]
+    #[QueryParameter(
+        'signature',
+        description: 'The signature of the verification URL.',
+        type: 'string',
+        required: true,
+    )]    
+    public function verify(EmailVerificationService $service, int $id, string $hash): JsonResponse {
+        $service->verifyEmail($id, $hash);
+
+        return response()->json([
+            'message' => 'Email verified successfully.'
+        ]);
+    }
+
     /**
      * Login
      *
@@ -102,6 +134,22 @@ class AuthController
         }
 
         return new ResetPasswordResponse($result);
+    }
+    
+    /**
+     * ResendVerification
+     *
+     * @param Request $request request coming from client
+     * @param EmailVerificationService $service related service
+     *
+     * @return JsonResponse
+     */
+    public function resend(Request $request, EmailVerificationService $service): JsonResponse {
+        $service->resendVerificationEmail($request->user());
+
+        return response()->json([
+            'message' => 'Verification email sent.'
+        ]);
     }
 
     /**
