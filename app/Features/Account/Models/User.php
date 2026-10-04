@@ -2,7 +2,7 @@
 
 namespace App\Features\Account\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\Features\Account\Models\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -15,7 +15,7 @@ use App\Features\Account\Notifications\PasswordResetNotification;
 
 #[Fillable(['email', 'password', 'username', 'full_name', 'bio', 'avatar'])]
 #[Hidden(['password'])]
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
