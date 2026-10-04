@@ -40,7 +40,7 @@ describe('Register', function () {
                     ]
                 ])->
                 assertJson([
-                    'message' => 'User registered successfully.'
+                    'message' => 'User registered successfully. Please verify your email.'
                 ]);
             
             $this->
