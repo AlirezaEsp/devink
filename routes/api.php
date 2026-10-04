@@ -12,12 +12,14 @@ Route::prefix('v1')->group(function () {
         Route::prefix('auth')->name('auth.')->group(function () {
             // without auth
             Route::post('register', [AuthController::class, 'register'])->name('register');
+            Route::get('verify/{id}/{hash}', [AuthController::class, 'verify'])->middleware('signed')->name('verification.verify');
             Route::post('login', [AuthController::class, 'login'])->name('login');
             Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
             Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('reset-password');
     
             // with auth
             Route::middleware('auth:sanctum')->group(function () {
+                Route::post('resend', [AuthController::class, 'resend'])->middleware('throttle:6,1')->name('verification.resend');
                 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
                 Route::get('show', [AuthController::class, 'show'])->name('show');
                 Route::patch('update', [AuthController::class, 'update'])->name('update');
