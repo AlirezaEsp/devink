@@ -3,10 +3,9 @@
 namespace App\Features\Account\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
+use App\Features\Account\Services\RegisterService;
 use App\Features\Account\Responses\RegisterResponse;
 use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Services\LoginService;
@@ -37,14 +36,13 @@ class AuthController
      *
      * @return RegisterResponse
      */
-    public function register(RegisterRequest $request): RegisterResponse
+    public function register(RegisterRequest $request, RegisterService $service): RegisterResponse
     {
-        $preparedData = $request->validated();
+        $registeredUser = $service->registerUser(
+            $request->validated()
+        );
 
-        $preparedData['password'] = Hash::make($preparedData['password']);
-        $user = User::create($preparedData);
-
-        return new RegisterResponse($user);
+        return new RegisterResponse($registeredUser);
     }
     
     /**
