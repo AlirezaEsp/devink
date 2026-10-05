@@ -56,9 +56,9 @@ describe('VerifyEmail', function () {
         });
 
         it('returns OK when the the email is already verified.', function () {
-            $this->user->update([
+            $this->user->forceFill([
                 'email_verified_at' => now()
-            ]);
+            ])->save();
 
             getJson(verifyUrl($this->user))->
                 assertOk()->
