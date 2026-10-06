@@ -7,7 +7,7 @@ use App\Features\Account\Models\User;
 
 uses(RefreshDatabase::class);
 
-function updatePayload(array $overrides = []) : array {
+function updateAuthPayload(array $overrides = []) : array {
     return array_merge([
         "email" => "NEWuser@example.com",
         "password" => "NEWstringst",
@@ -33,7 +33,7 @@ describe('UpdateAuth', function () {
         it('updates user auth credentials with a valid access token.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload(),
+                updateAuthPayload(),
                 generateAuthHeader($this->token)
             );
 
@@ -61,12 +61,12 @@ describe('UpdateAuth', function () {
             $this->
                 assertDatabaseHas('users', [
                     'id' => $this->user->id,
-                    'email' => strtolower(updatePayload()['email']),
+                    'email' => strtolower(updateAuthPayload()['email']),
                 ]);
             
             // check for new password
             expect(
-                Hash::check(updatePayload()['password'], $this->user->password)
+                Hash::check(updateAuthPayload()['password'], $this->user->password)
             )->toBeTrue();
         });
     });
@@ -76,7 +76,7 @@ describe('UpdateAuth', function () {
         it('rejects an invalid email.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload([
+                updateAuthPayload([
                     'email' => 'userexamplecom'
                 ]),
                 generateAuthHeader($this->token)
@@ -90,7 +90,7 @@ describe('UpdateAuth', function () {
         it('rejects an email longer than 255 chars.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload([
+                updateAuthPayload([
                     'email' => str_repeat('user', 70) . '@example.com'
                 ]),
                 generateAuthHeader($this->token)
@@ -104,7 +104,7 @@ describe('UpdateAuth', function () {
         it('rejects passwords shorter than 8 chars.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload([
+                updateAuthPayload([
                     'password' => '1234567',
                     'password_confirmation' => '1234567'
                 ]),
@@ -119,7 +119,7 @@ describe('UpdateAuth', function () {
         it('rejects two mismatched passwords.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload([
+                updateAuthPayload([
                     'password' => 'stringst',
                     'password_confirmation' => 'stringstX'
                 ]),
@@ -134,7 +134,7 @@ describe('UpdateAuth', function () {
         it('rejects an email already used by another user.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload([
+                updateAuthPayload([
                     'email' => $this->secondUser->email,
                 ]),
                 generateAuthHeader($this->token)
@@ -151,7 +151,7 @@ describe('UpdateAuth', function () {
         it('rejects an invalid token.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload(),
+                updateAuthPayload(),
                 generateAuthHeader($this->token . 'X')
             );
 
@@ -165,7 +165,7 @@ describe('UpdateAuth', function () {
         it('rejects a request without an access token.', function () {
             $response = patchJson(
                 updateAuthUrl(),
-                updatePayload(),
+                updateAuthPayload(),
             );
 
             $response
