@@ -6,8 +6,8 @@ use App\Features\Account\Models\User;
 
 uses(RefreshDatabase::class);
 
-function showAuthUrl(): string {
-    return route('accounts.auth.show');
+function showProfileUrl(): string {
+    return route('accounts.profile.show');
 }
 
 beforeEach(function () {
@@ -16,27 +16,28 @@ beforeEach(function () {
     $this->token = $this->user->createToken('api')->plainTextToken;
 });
 
-describe('ShowAuth', function () {
+describe('ShowProfile', function () {
 
     describe('Success', function () {
 
-        it('shows a user authentication resource with a valid access token.', function () {
-            $response = getJson(showAuthUrl(), generateAuthHeader($this->token));
+        it('returns the user profile with a valid access token.', function () {
+            $response = getJson(showProfileUrl(), generateAuthHeader($this->token));
 
             $response->
                 assertOk()->
                 assertExactJsonStructure([
                     "id",
-                    "email",
-                    "email_verified_at",
-                    "last_login_at",
+                    "username",
+                    "full_name",
+                    "bio",
+                    "avatar",
                     "created_at",
                     "updated_at",
                     "deleted_at",
                 ])->
                 assertJson([
                     'id' => $this->user->id,
-                    'email' => $this->user->email,
+                    'username' => $this->user->username,
                 ]);
         });
     });
@@ -44,7 +45,7 @@ describe('ShowAuth', function () {
     describe('Authentication Failure', function () {
 
         it('rejects an invalid token.', function () {
-            $response = getJson(showAuthUrl(), generateAuthHeader($this->token . 'X'));
+            $response = getJson(showProfileUrl(), generateAuthHeader($this->token . 'X'));
 
             $response->
                 assertUnauthorized()->
@@ -54,7 +55,7 @@ describe('ShowAuth', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = getJson(showAuthUrl());
+            $response = getJson(showProfileUrl());
 
             $response
                 ->assertUnauthorized()

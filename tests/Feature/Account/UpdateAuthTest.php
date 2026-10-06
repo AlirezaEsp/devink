@@ -14,7 +14,7 @@ function updatePayload(array $overrides = []) : array {
         "password_confirmation" => "NEWstringst"
     ], $overrides);
 }
-function updateUrl(): string {
+function updateAuthUrl(): string {
     return route('accounts.auth.update');
 }
 
@@ -32,7 +32,7 @@ describe('UpdateAuth', function () {
 
         it('updates user auth credentials with a valid access token.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload(),
                 generateAuthHeader($this->token)
             );
@@ -75,7 +75,7 @@ describe('UpdateAuth', function () {
 
         it('rejects an invalid email.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload([
                     'email' => 'userexamplecom'
                 ]),
@@ -89,7 +89,7 @@ describe('UpdateAuth', function () {
 
         it('rejects an email longer than 255 chars.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload([
                     'email' => str_repeat('user', 70) . '@example.com'
                 ]),
@@ -103,7 +103,7 @@ describe('UpdateAuth', function () {
 
         it('rejects passwords shorter than 8 chars.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload([
                     'password' => '1234567',
                     'password_confirmation' => '1234567'
@@ -118,7 +118,7 @@ describe('UpdateAuth', function () {
 
         it('rejects two mismatched passwords.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload([
                     'password' => 'stringst',
                     'password_confirmation' => 'stringstX'
@@ -133,7 +133,7 @@ describe('UpdateAuth', function () {
 
         it('rejects an email already used by another user.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload([
                     'email' => $this->secondUser->email,
                 ]),
@@ -150,7 +150,7 @@ describe('UpdateAuth', function () {
 
         it('rejects an invalid token.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload(),
                 generateAuthHeader($this->token . 'X')
             );
@@ -164,7 +164,7 @@ describe('UpdateAuth', function () {
 
         it('rejects a request without an access token.', function () {
             $response = patchJson(
-                updateUrl(),
+                updateAuthUrl(),
                 updatePayload(),
             );
 
