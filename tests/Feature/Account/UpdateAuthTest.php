@@ -26,7 +26,7 @@ beforeEach(function () {
     $this->secondUser = User::factory()->create();
 });
 
-describe('Update', function () {
+describe('UpdateAuth', function () {
 
     describe('Success', function () {
 

@@ -16,7 +16,7 @@ beforeEach(function () {
     $this->token = $this->user->createToken('api')->plainTextToken;
 });
 
-describe('Show', function () {
+describe('ShowAuth', function () {
 
     describe('Success', function () {
 
