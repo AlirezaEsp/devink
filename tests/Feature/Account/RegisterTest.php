@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use function Pest\Laravel\postJson;
+use App\Features\Account\Models\User;
 
 uses(RefreshDatabase::class);
 
@@ -23,6 +26,8 @@ describe('Register', function () {
     describe('Success', function () {
 
         it('registers a user successfully.', function () {
+            Notification::fake();
+
             $response = postJson(registrationUrl(), registrationPayload());
 
             $response->
@@ -52,6 +57,11 @@ describe('Register', function () {
                 assertDatabaseHas('users', [
                     'username' => 'string'
                 ]);
+
+            Notification::assertSentTo(
+                User::findOrFail($response->json('user.id')),
+                VerifyEmail::class
+            );
         });
     });
 
