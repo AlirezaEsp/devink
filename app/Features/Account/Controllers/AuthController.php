@@ -246,10 +246,13 @@ class AuthController
      */
     public function logout(Request $request): LogoutResponse
     {
+        // get user
         $user = $request->user();
 
+        // invalidate current user access token
         $user->currentAccessToken()->delete();
 
+        // return successful response
         return new LogoutResponse($user);
     }
 
