@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Features\Account\Resources\ProfileResource;
 use App\Features\Account\Resources\PublicProfileResource;
 use App\Features\Account\Requests\UpdateProfileRequest;
-use App\Features\Account\Services\UpdateProfileService;
 use App\Features\Account\Responses\UpdateProfileResponse;
 use App\Features\Account\Models\User;
 
@@ -47,18 +46,25 @@ class ProfileController
     /**
      * Update
      *
-     * @param UpdateProfileRequest $request Request coming from client
-     * @param UpdateProfileService $service Related Service
+     * @param UpdateProfileRequest $request
      *
      * @return UpdateProfileResponse
      */
-    public function update(UpdateProfileRequest $request, UpdateProfileService $service): UpdateProfileResponse
+    public function update(UpdateProfileRequest $request): UpdateProfileResponse
     {
-        $updatedUser = $service->updateProfile(
-            $request->user(),
-            $request->validated(),
-        );
+        // get user
+        $user = $request->user();
 
-        return new UpdateProfileResponse($updatedUser);
+        // get user update (validated) data from request
+        $updateData = $request->validated();
+
+        // update profile
+        $user->update($updateData);
+
+        // refresh user instance
+        $user->refresh();
+
+        // return successful response
+        return new UpdateProfileResponse($user);
     }
 }
