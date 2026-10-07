@@ -15,14 +15,16 @@ class ProfileController
     /**
      * PublicShow
      *
-     * @param string $username Username route parameter coming from url
+     * @param string $username username route parameter from url
      *
      * @return PublicProfileResource
      */
     public function showPublic(string $username): PublicProfileResource
     {
+        // find user
         $user = User::where('username', $username)->firstOrFail();
 
+        // return public profile resource
         return new PublicProfileResource($user);
     }
 
