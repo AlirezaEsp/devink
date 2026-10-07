@@ -24,7 +24,6 @@ use App\Features\Account\Resources\UserDetailedResource;
 use App\Features\Account\Requests\ForgotPasswordRequest;
 use App\Features\Account\Responses\ForgotPasswordResponse;
 use App\Features\Account\Requests\ResetPasswordRequest;
-use App\Features\Account\Services\ResetPasswordService;
 use App\Features\Account\Responses\ResetPasswordResponse;
 
 /**
@@ -139,7 +138,7 @@ class AuthController
             'token' => $token
         ]);
     }
-    
+
     /**
      * ForgotPassword
      *
@@ -162,29 +161,54 @@ class AuthController
         // return successful response
         return new ForgotPasswordResponse($result);
     }
-    
+
     /**
      * ResetPassword
      *
-     * @param ResetPasswordRequest $request Request coming from client
-     * @param ResetPasswordService $service Related service
+     * @param ResetPasswordRequest $request
      *
      * @return mixed
      */
-    public function resetPassword(ResetPasswordRequest $request, ResetPasswordService $service): mixed
+    public function resetPassword(ResetPasswordRequest $request): mixed
     {
-        $result = $service->resetPassword($request->validated());
+        // get client reset password (validated) credeentials from request
+        $credentials = $request->validated();
 
-        // return 422 if process failed
-        if ($result['status'] !== Password::PASSWORD_RESET) {
+        // define null user to assign value later
+        $user = null;
+
+        // result of password reset operation
+        $result = Password::reset(
+            $credentials,
+            // closure
+            function ($resetUser, string $password) use (&$user) : void {
+                // replace user's password
+                $resetUser->forceFill([
+                    'password' => Hash::make($password),
+                ])->save();
+
+                // Invalidate tokens created before the password reset.
+                $resetUser->tokens()->delete();
+
+                // assign updated user to user var
+                $user = $resetUser;
+            }
+        );
+
+        // return unprocessable error if process failed
+        if ($result !== Password::PASSWORD_RESET) {
             return response()->json([
-                'message' => __("The credentials are not valid."),
+                'message' => "The credentials are not valid.",
             ], 422);
         }
 
-        return new ResetPasswordResponse($result);
+        // return successful response
+        return new ResetPasswordResponse([
+            'status' => $result,
+            'user' => $user
+        ]);
     }
-    
+
     /**
      * ResendVerification
      *
