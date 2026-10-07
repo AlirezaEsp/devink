@@ -31,15 +31,16 @@ class ProfileController
     /**
      * Show
      *
-     * @param Request $request Request coming from client
+     * @param Request $request
      *
      * @return void
      */
     public function show(Request $request): ProfileResource
     {
-        // find user's profile
+        // find user
         $user = $request->user();
 
+        // return profile resource
         return new ProfileResource($user);
     }
     
