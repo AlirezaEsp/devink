@@ -3,11 +3,13 @@
 namespace App\Features\Account\Controllers;
 
 use Dedoc\Scramble\Attributes\QueryParameter;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
-use App\Features\Account\Services\RegisterService;
 use App\Features\Account\Responses\RegisterResponse;
 use App\Features\Account\Services\EmailVerificationService;
 use App\Features\Account\Requests\LoginRequest;
@@ -31,20 +33,29 @@ use App\Features\Account\Responses\ResetPasswordResponse;
  * Controlls Authentiction flows
  */
 class AuthController
-{    
+{
     /**
      * Register
      * 
-     * @param RegisterRequest $request Dedicated form request
+     * @param RegisterRequest $request
      *
      * @return RegisterResponse
      */
-    public function register(RegisterRequest $request, RegisterService $service): RegisterResponse
+    public function register(RegisterRequest $request): RegisterResponse
     {
-        $registeredUser = $service->registerUser(
-            $request->validated()
-        );
+        // get new user register (validated) data from request
+        $registerData = $request->validated();
 
+        // replace password with hash one
+        $registerData['password'] = Hash::make($registerData['password']);
+
+        // create new user in db
+        $registeredUser = User::create($registerData);
+
+        // trigger Registered event for verification notification
+        event(new Registered($registeredUser));
+
+        // return registered user information
         return new RegisterResponse($registeredUser);
     }
 
