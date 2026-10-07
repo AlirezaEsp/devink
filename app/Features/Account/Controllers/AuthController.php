@@ -259,12 +259,13 @@ class AuthController
     /**
      * Show
      *
-     * @param Request $request Request coming from client
+     * @param Request $request
      *
      * @return UserDetailedResource
      */
     public function show(Request $request): UserDetailedResource
     {
+        // return user auth resource
         return new UserDetailedResource($request->user());
     }
 
