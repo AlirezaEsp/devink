@@ -3,6 +3,7 @@
 namespace App\Features\Account\Controllers;
 
 use Dedoc\Scramble\Attributes\QueryParameter;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,6 @@ use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Responses\RegisterResponse;
 use App\Features\Account\Services\EmailVerificationService;
 use App\Features\Account\Requests\LoginRequest;
-use App\Features\Account\Services\LoginService;
 use App\Features\Account\Responses\LoginResponse;
 use App\Features\Account\Responses\LogoutResponse;
 use App\Features\Account\Requests\UpdateUserRequest;
@@ -112,18 +112,33 @@ class AuthController
     /**
      * Login
      *
-     * @param LoginRequest $request Dedicated form request
-     * @param LoginService $service Dedicated service [DI from ServiceContainer]
+     * @param LoginRequest $request
      *
      * @return LoginResponse
      */
-    public function login(LoginRequest $request, LoginService $service): LoginResponse
+    public function login(LoginRequest $request): LoginResponse
     {
-        $user_array = $service->loginUser(
-            $request->validated()
-        );
+        // get client login (validated) credeentials from request
+        $credentials = $request->validated();
 
-        return new LoginResponse($user_array);
+        // find user
+        $user = User::query()->where('email', $credentials['email'])->first();
+
+        // check for password
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            throw new AuthenticationException(
+                'The provided credentials are not valid.'
+            );
+        }
+
+        // generate token
+        $token = $user->createToken('api')->plainTextToken;
+
+        // return logged in user instance with access token
+        return new LoginResponse([
+            'user' => $user,
+            'token' => $token
+        ]);
     }
     
     /**
