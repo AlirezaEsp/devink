@@ -17,7 +17,6 @@ use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Responses\LoginResponse;
 use App\Features\Account\Responses\LogoutResponse;
 use App\Features\Account\Requests\UpdateUserRequest;
-use App\Features\Account\Services\UpdateUserService;
 use App\Features\Account\Responses\UpdateUserResponse;
 use App\Features\Account\Resources\UserDetailedResource;
 use App\Features\Account\Requests\ForgotPasswordRequest;
@@ -272,18 +271,25 @@ class AuthController
     /**
      * Update
      *
-     * @param UpdateUserRequest $request Incoming request
-     * @param UpdateUserService $service Related Service
+     * @param UpdateUserRequest $request
      *
      * @return UpdateUserResponse
      */
-    public function update(UpdateUserRequest $request, UpdateUserService $service): UpdateUserResponse
+    public function update(UpdateUserRequest $request): UpdateUserResponse
     {
-        $user = $service->updateUser(
-            $request->user(),
-            $request->validated()
-        );
+        // get user
+        $user = $request->user();
 
+        // get user update (validated) data from request
+        $updateData = $request->validated();
+
+        // update user data
+        $user->update($updateData);
+
+        // refresh iuser instance
+        $user->refresh();
+
+        // return successful response
         return new UpdateUserResponse($user);
     }
 }
