@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Responses\RegisterResponse;
-use App\Features\Account\Services\EmailVerificationService;
 use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Responses\LoginResponse;
 use App\Features\Account\Responses\LogoutResponse;
@@ -85,7 +84,7 @@ class AuthController
         // check whether user email already verified or not
         if ($user->hasVerifiedEmail()) {
             return response()->json([
-                'message' => 'Email already verified.'
+                'message' => 'The email has already been verified.'
             ], 409);
         }
 
@@ -212,14 +211,27 @@ class AuthController
     /**
      * ResendVerification
      *
-     * @param Request $request request coming from client
-     * @param EmailVerificationService $service related service
+     * @param Request $request
      *
      * @return JsonResponse
      */
-    public function resend(Request $request, EmailVerificationService $service): JsonResponse {
-        $service->resendVerificationEmail($request->user());
+    public function resend(Request $request): JsonResponse {
+        // get user
+        $user = $request->user();
 
+        // check whether user email already verified or not
+        if ($user->hasVerifiedEmail()) {
+            // --- here needs a refactor to have an specialized exception
+            throw new HttpException(
+                409,
+                'The email has already been verified.'
+            );
+        }
+
+        // send email verification (again)
+        $user->sendEmailVerificationNotification();
+
+        // return successful response
         return response()->json([
             'message' => 'Verification email sent.'
         ]);
