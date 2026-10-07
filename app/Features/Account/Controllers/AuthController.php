@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Responses\RegisterResponse;
@@ -62,7 +63,6 @@ class AuthController
     /**
      * VerifyEmail
      *
-     * @param EmailVerificationService $service related service
      * @param int $id user id from path parameter
      * @param string $hash user email hash from path parameter
      *
@@ -80,9 +80,30 @@ class AuthController
         type: 'string',
         required: true,
     )]    
-    public function verify(EmailVerificationService $service, int $id, string $hash): JsonResponse {
-        $service->verifyEmail($id, $hash);
+    public function verify(int $id, string $hash): JsonResponse {
+        // find user
+        $user = User::findOrFail($id);
 
+        // check whether user email already verified or not
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email already verified.'
+            ], 409);
+        }
+
+        // check user email with hash version
+        if (!hash_equals(sha1($user->getEmailForVerification()), $hash)) {
+            // --- here needs a refactor to have an specialized exception
+            throw new HttpException(
+                403,
+                'The verification link is invalid.'
+            );
+        }
+
+        // store user verified_at field for now
+        $user->markEmailAsVerified();
+
+        // return successful response
         return response()->json([
             'message' => 'Email verified successfully.'
         ]);

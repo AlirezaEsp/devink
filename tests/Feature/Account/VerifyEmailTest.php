@@ -61,9 +61,9 @@ describe('VerifyEmail', function () {
             ])->save();
 
             getJson(verifyUrl($this->user))->
-                assertOk()->
+                assertConflict()->
                 assertJson([
-                    'message' => 'Email verified successfully.'
+                    'message' => 'Email already verified.'
                 ]);
         });
 
