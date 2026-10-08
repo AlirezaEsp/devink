@@ -40,11 +40,15 @@ describe('Login', function () {
                 assertJson([
                     'message' => 'User logged in successfully.'
                 ]);
-            
+
             $this->
                 assertDatabaseHas('personal_access_tokens', [
                     'tokenable_id' => $response->json('user.id')
                 ]);
+
+            expect(
+                User::findOrFail($response->json('user.id'))->value('last_login_at')
+            )->not->toBe($response->json('user.last_login_at'));
         });
     });
 

@@ -50,6 +50,11 @@ class AuthController
         // generate access token
         $token = $registeredUser->createToken('api')->plainTextToken;
 
+        // update last user login datatime
+        $registeredUser->forceFill([
+            'last_login_at' => now()
+        ])->save();
+
         // return successful message along the registered user information
         return response()->json([
             'message' => 'User registered successfully. Please verify your email.',
@@ -131,6 +136,11 @@ class AuthController
 
         // generate access token
         $token = $user->createToken('api')->plainTextToken;
+
+        // update last user login datatime
+        $user->forceFill([
+            'last_login_at' => now()
+        ])->save();
 
         // return successful message along the logged in user info and access token
         return response()->json([

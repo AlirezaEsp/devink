@@ -48,17 +48,21 @@ describe('Register', function () {
                 assertJson([
                     'message' => 'User registered successfully. Please verify your email.'
                 ]);
-            
+
             $this->
                 assertDatabaseHas('users', [
                     'email' => 'user@example.com',
-                    'username' => 'string'
+                    'username' => 'string',
                 ]);
-            
+
             $this->
                 assertDatabaseHas('personal_access_tokens', [
                     'tokenable_id' => $response->json('user.id')
                 ]);
+
+            expect(
+                User::findOrFail($response->json('user.id'))->value('last_login_at')
+            )->not->toBe($response->json('user.last_login_at'));
 
             Notification::assertSentTo(
                 User::findOrFail($response->json('user.id')),
