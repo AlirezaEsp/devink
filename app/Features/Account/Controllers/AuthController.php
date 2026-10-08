@@ -47,10 +47,14 @@ class AuthController
         // trigger Registered event for verification notification
         event(new Registered($registeredUser));
 
+        // generate access token
+        $token = $registeredUser->createToken('api')->plainTextToken;
+
         // return successful message along the registered user information
         return response()->json([
             'message' => 'User registered successfully. Please verify your email.',
-            'user' => new UserDetailedResource($registeredUser)
+            'user' => new UserDetailedResource($registeredUser),
+            'token' => $token
         ], 201);
     }
 
@@ -125,7 +129,7 @@ class AuthController
             );
         }
 
-        // generate token
+        // generate access token
         $token = $user->createToken('api')->plainTextToken;
 
         // return successful message along the logged in user info and access token

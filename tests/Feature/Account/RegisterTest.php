@@ -42,7 +42,8 @@ describe('Register', function () {
                         "created_at",
                         "updated_at",
                         "deleted_at"
-                    ]
+                    ],
+                    "token"
                 ])->
                 assertJson([
                     'message' => 'User registered successfully. Please verify your email.'
@@ -50,12 +51,13 @@ describe('Register', function () {
             
             $this->
                 assertDatabaseHas('users', [
-                    'email' => 'user@example.com'
+                    'email' => 'user@example.com',
+                    'username' => 'string'
                 ]);
             
             $this->
-                assertDatabaseHas('users', [
-                    'username' => 'string'
+                assertDatabaseHas('personal_access_tokens', [
+                    'tokenable_id' => $response->json('user.id')
                 ]);
 
             Notification::assertSentTo(
