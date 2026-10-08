@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
-use App\Features\Account\Responses\RegisterResponse;
 use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Responses\LoginResponse;
 use App\Features\Account\Responses\LogoutResponse;
@@ -36,9 +35,9 @@ class AuthController
      * 
      * @param RegisterRequest $request
      *
-     * @return RegisterResponse
+     * @return JsonResponse
      */
-    public function register(RegisterRequest $request): RegisterResponse
+    public function register(RegisterRequest $request): JsonResponse
     {
         // get new user register (validated) data from request
         $registerData = $request->validated();
@@ -52,8 +51,11 @@ class AuthController
         // trigger Registered event for verification notification
         event(new Registered($registeredUser));
 
-        // return registered user information
-        return new RegisterResponse($registeredUser);
+        // return successful message along the registered user information
+        return response()->json([
+            'message' => 'User registered successfully. Please verify your email.',
+            'user' => new UserDetailedResource($registeredUser)
+        ], 201);
     }
 
     /**
