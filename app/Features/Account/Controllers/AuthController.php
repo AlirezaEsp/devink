@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Requests\LoginRequest;
-use App\Features\Account\Responses\LogoutResponse;
 use App\Features\Account\Requests\UpdateUserRequest;
 use App\Features\Account\Responses\UpdateUserResponse;
 use App\Features\Account\Resources\UserDetailedResource;
@@ -233,7 +232,7 @@ class AuthController
         // send email verification (again)
         $user->sendEmailVerificationNotification();
 
-        // return successful response
+        // return successful message
         return response()->json([
             'message' => 'Verification email sent.'
         ]);
@@ -244,9 +243,9 @@ class AuthController
      *
      * @param Request $request
      *
-     * @return LogoutResponse
+     * @return JsonResponse
      */
-    public function logout(Request $request): LogoutResponse
+    public function logout(Request $request): JsonResponse
     {
         // get user
         $user = $request->user();
@@ -254,8 +253,11 @@ class AuthController
         // invalidate current user access token
         $user->currentAccessToken()->delete();
 
-        // return successful response
-        return new LogoutResponse($user);
+        // return successful message along the user info
+        return response()->json([
+            'message' => 'User logged out successfully.',
+            'user' => new UserResource($user)
+        ]);
     }
 
     /**
