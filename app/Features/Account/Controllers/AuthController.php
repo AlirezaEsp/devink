@@ -19,7 +19,6 @@ use App\Features\Account\Responses\UpdateUserResponse;
 use App\Features\Account\Resources\UserDetailedResource;
 use App\Features\Account\Resources\UserResource;
 use App\Features\Account\Requests\ForgotPasswordRequest;
-use App\Features\Account\Responses\ForgotPasswordResponse;
 use App\Features\Account\Requests\ResetPasswordRequest;
 use App\Features\Account\Responses\ResetPasswordResponse;
 
@@ -145,9 +144,9 @@ class AuthController
      *
      * @param ForgotPasswordRequest $request
      *
-     * @return mixed
+     * @return JsonResponse
      */
-    public function forgotPassword(ForgotPasswordRequest $request): mixed
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
         // send reset password link notification
         $result = Password::sendResetLink($request->only('email'));
@@ -159,8 +158,10 @@ class AuthController
             ], 422);
         }
 
-        // return successful response
-        return new ForgotPasswordResponse($result);
+        // return successful message
+        return response()->json([
+            'message' => $result
+        ]);
     }
 
     /**
