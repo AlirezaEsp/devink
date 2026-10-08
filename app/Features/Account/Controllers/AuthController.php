@@ -14,7 +14,6 @@ use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Requests\UpdateUserRequest;
-use App\Features\Account\Responses\UpdateUserResponse;
 use App\Features\Account\Resources\UserDetailedResource;
 use App\Features\Account\Resources\UserResource;
 use App\Features\Account\Requests\ForgotPasswordRequest;
@@ -278,9 +277,9 @@ class AuthController
      *
      * @param UpdateUserRequest $request
      *
-     * @return UpdateUserResponse
+     * @return JsonResponse
      */
-    public function update(UpdateUserRequest $request): UpdateUserResponse
+    public function update(UpdateUserRequest $request): JsonResponse
     {
         // get user
         $user = $request->user();
@@ -294,7 +293,10 @@ class AuthController
         // refresh iuser instance
         $user->refresh();
 
-        // return successful response
-        return new UpdateUserResponse($user);
+        // return successful message along detailed user info
+        return response()->json([
+            'message' => 'User informations updated successfully.',
+            'user' => new UserDetailedResource($user)
+        ]);
     }
 }
