@@ -2,12 +2,12 @@
 
 namespace App\Features\Account\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Features\Account\Models\User;
 use App\Features\Account\Resources\ProfileResource;
 use App\Features\Account\Resources\PublicProfileResource;
 use App\Features\Account\Requests\UpdateProfileRequest;
-use App\Features\Account\Responses\UpdateProfileResponse;
-use App\Features\Account\Models\User;
 
 class ProfileController
 {    
@@ -32,7 +32,7 @@ class ProfileController
      *
      * @param Request $request
      *
-     * @return void
+     * @return ProfileResource
      */
     public function show(Request $request): ProfileResource
     {
@@ -48,9 +48,9 @@ class ProfileController
      *
      * @param UpdateProfileRequest $request
      *
-     * @return UpdateProfileResponse
+     * @return JsonResponse
      */
-    public function update(UpdateProfileRequest $request): UpdateProfileResponse
+    public function update(UpdateProfileRequest $request): JsonResponse
     {
         // get user
         $user = $request->user();
@@ -64,7 +64,10 @@ class ProfileController
         // refresh user instance
         $user->refresh();
 
-        // return successful response
-        return new UpdateProfileResponse($user);
+        // return successful message along the profile info
+        return response()->json([
+            'message' => 'Profile updated successfully.',
+            'profile' => new ProfileResource($user),
+        ]);
     }
 }

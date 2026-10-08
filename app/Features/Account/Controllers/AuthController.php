@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Features\Account\Models\User;
+use App\Features\Account\Resources\UserDetailedResource;
+use App\Features\Account\Resources\UserResource;
 use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Requests\UpdateUserRequest;
-use App\Features\Account\Resources\UserDetailedResource;
-use App\Features\Account\Resources\UserResource;
 use App\Features\Account\Requests\ForgotPasswordRequest;
 use App\Features\Account\Requests\ResetPasswordRequest;
 
