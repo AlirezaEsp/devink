@@ -13,11 +13,11 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Features\Account\Models\User;
 use App\Features\Account\Requests\RegisterRequest;
 use App\Features\Account\Requests\LoginRequest;
-use App\Features\Account\Responses\LoginResponse;
 use App\Features\Account\Responses\LogoutResponse;
 use App\Features\Account\Requests\UpdateUserRequest;
 use App\Features\Account\Responses\UpdateUserResponse;
 use App\Features\Account\Resources\UserDetailedResource;
+use App\Features\Account\Resources\UserResource;
 use App\Features\Account\Requests\ForgotPasswordRequest;
 use App\Features\Account\Responses\ForgotPasswordResponse;
 use App\Features\Account\Requests\ResetPasswordRequest;
@@ -101,7 +101,7 @@ class AuthController
         // store user verified_at field for now
         $user->markEmailAsVerified();
 
-        // return successful response
+        // return successful message
         return response()->json([
             'message' => 'Email verified successfully.'
         ]);
@@ -112,9 +112,9 @@ class AuthController
      *
      * @param LoginRequest $request
      *
-     * @return LoginResponse
+     * @return JsonResponse
      */
-    public function login(LoginRequest $request): LoginResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         // get client login (validated) credeentials from request
         $credentials = $request->validated();
@@ -132,9 +132,10 @@ class AuthController
         // generate token
         $token = $user->createToken('api')->plainTextToken;
 
-        // return logged in user instance with access token
-        return new LoginResponse([
-            'user' => $user,
+        // return successful message along the logged in user info and access token
+        return response()->json([
+            'message' => 'User logged in successfully.',
+            'user' => new UserResource($user),
             'token' => $token
         ]);
     }
