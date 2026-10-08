@@ -20,7 +20,6 @@ use App\Features\Account\Resources\UserDetailedResource;
 use App\Features\Account\Resources\UserResource;
 use App\Features\Account\Requests\ForgotPasswordRequest;
 use App\Features\Account\Requests\ResetPasswordRequest;
-use App\Features\Account\Responses\ResetPasswordResponse;
 
 /**
  * AuthController
@@ -160,7 +159,7 @@ class AuthController
 
         // return successful message
         return response()->json([
-            'message' => $result
+            'message' => __($result)
         ]);
     }
 
@@ -169,9 +168,9 @@ class AuthController
      *
      * @param ResetPasswordRequest $request
      *
-     * @return mixed
+     * @return JsonResponse
      */
-    public function resetPassword(ResetPasswordRequest $request): mixed
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         // get client reset password (validated) credeentials from request
         $credentials = $request->validated();
@@ -204,10 +203,10 @@ class AuthController
             ], 422);
         }
 
-        // return successful response
-        return new ResetPasswordResponse([
-            'status' => $result,
-            'user' => $user
+        // return successful message along the user info
+        return response()->json([
+            'message' => __($result),
+            'user' => new UserResource($user)
         ]);
     }
 
