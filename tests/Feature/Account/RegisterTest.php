@@ -60,9 +60,17 @@ describe('Register', function () {
                     'tokenable_id' => $response->json('user.id')
                 ]);
 
+            $user = User::findOrFail($response->json('user.id'));
+
+            expect($user->last_login_at)->not->toBeNull();
+
             expect(
-                User::findOrFail($response->json('user.id'))->value('last_login_at')
-            )->not->toBe($response->json('user.last_login_at'));
+                $user->last_login_at->toISOString()
+            )->toBe(
+                Carbon\Carbon::parse(
+                    $response->json('user.last_login_at')
+                )->toISOString()
+            );
 
             Notification::assertSentTo(
                 User::findOrFail($response->json('user.id')),

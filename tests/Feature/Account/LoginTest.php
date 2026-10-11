@@ -17,7 +17,7 @@ function loginUrl(): string {
 }
 
 beforeEach(function () {
-    User::factory()->defaultTestingUser()->create();
+    $this->user = User::factory()->defaultTestingUser()->create();
 });
 
 describe('Login', function () {
@@ -25,6 +25,10 @@ describe('Login', function () {
     describe('Success', function () {
 
         it('logins with valid user credentials.', function () {
+            $this->user->forceFill([
+                'last_login_at' => null,
+            ])->save();
+
             $response = postJson(loginUrl(), loginPayload());
 
             $response->
@@ -46,9 +50,9 @@ describe('Login', function () {
                     'tokenable_id' => $response->json('user.id')
                 ]);
 
-            expect(
-                User::findOrFail($response->json('user.id'))->value('last_login_at')
-            )->not->toBe($response->json('user.last_login_at'));
+            $this->user->refresh();
+
+            expect($this->user->last_login_at)->not->toBeNull();
         });
     });
 
