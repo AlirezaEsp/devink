@@ -33,13 +33,13 @@ class UpdateProfileRequest extends FormRequest
 
         return [
             'username' => [
-                'nullable',
+                'sometimes',
                 'string',
                 'max:255',
                 Rule::unique('users', 'username')->ignore($userId),
             ],
             'full_name' => [
-                'nullable',
+                'sometimes',
                 'string',
                 'max:255'
             ],

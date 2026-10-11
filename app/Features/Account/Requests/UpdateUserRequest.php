@@ -34,14 +34,14 @@ class UpdateUserRequest extends FormRequest
 
         return [
             'email' => [
-                'nullable',
+                'sometimes',
                 'string',
                 'email',
                 'max:255',
                 Rule::unique('users', 'email')->ignore($userId)
             ],
             'password' => [
-                'nullable',
+                'sometimes',
                 'string',
                 'min:8',
                 'confirmed'
