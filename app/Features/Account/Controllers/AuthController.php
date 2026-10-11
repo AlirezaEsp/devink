@@ -204,7 +204,7 @@ class AuthController
                 $resetUser->tokens()->delete();
 
                 // assign updated user to user var
-                $user = $resetUser;
+                $user = $resetUser->refresh();
             }
         );
 
@@ -301,16 +301,37 @@ class AuthController
         // get user update (validated) data from request
         $updateData = $request->validated();
 
+        // Determine whether the email or password is being changed
+        $emailChanged = isset($updateData['email']) && $updateData['email'] !== $user->email;
+        $passwordChanged = array_key_exists('password', $updateData);
+
         // update user data
         $user->update($updateData);
+
+        // null the email_verified_at field if email was changed
+        if ($emailChanged) {
+            $user->forceFill([
+                'email_verified_at' => null,
+            ])->save();
+
+            // send email verification
+            $user->sendEmailVerificationNotification();
+        }
+
+        // Invalidate access tokens if password was changed
+        if ($passwordChanged) {
+            $user->tokens()->delete();
+        }
 
         // refresh iuser instance
         $user->refresh();
 
         // return successful message along detailed user info
         return response()->json([
-            'message' => 'User informations updated successfully.',
-            'user' => new UserDetailedResource($user)
+            'message' => 'User information updated successfully.',
+            'user' => new UserDetailedResource($user),
+            'email_verification_required' => boolval($emailChanged),
+            'relogin_required' => $passwordChanged
         ]);
     }
 }

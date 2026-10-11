@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use function Pest\Laravel\patchJson;
 use App\Features\Account\Models\User;
 
@@ -31,6 +33,8 @@ describe('UpdateAuth', function () {
     describe('Success', function () {
 
         it('updates user auth credentials with a valid access token.', function () {
+            Notification::fake();
+
             $response = patchJson(
                 updateAuthUrl(),
                 updateAuthPayload(),
@@ -49,10 +53,14 @@ describe('UpdateAuth', function () {
                         "created_at",
                         "updated_at",
                         "deleted_at",
-                    ]
+                    ],
+                    "email_verification_required",
+                    "relogin_required"
                 ])->
                 assertJson([
-                    'message' => 'User informations updated successfully.'
+                    'message' => 'User information updated successfully.',
+                    "email_verification_required" => true,
+                    "relogin_required" => true
                 ]);
 
             $this->user->refresh();
@@ -63,11 +71,23 @@ describe('UpdateAuth', function () {
                     'id' => $this->user->id,
                     'email' => strtolower(updateAuthPayload()['email']),
                 ]);
+
+            // check for unvirification new email
+                expect($this->user->email_verified_at)->toBeNull();
             
             // check for new password
             expect(
                 Hash::check(updateAuthPayload()['password'], $this->user->password)
             )->toBeTrue();
+
+            $this->assertDatabaseMissing('personal_access_tokens', [
+                'tokenable_id' => $this->user->id
+            ]);
+
+            Notification::assertSentTo(
+                $this->user,
+                VerifyEmail::class
+            );
         });
     });
 
