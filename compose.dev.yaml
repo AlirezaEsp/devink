@@ -1,18 +1,19 @@
-
 services:
   api:
     build:
       context: .
       dockerfile: Dockerfile.dev
     image: devink-api:dev
+    working_dir: /var/www/html
     ports:
       - "8000:8000"
     env_file:
       - .env
+    volumes:
+      - .:/var/www/html
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"
 
   db:
     image: postgres:18.6-alpine3.24
@@ -25,7 +26,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"
       interval: 5s
       timeout: 5s
       retries: 5
