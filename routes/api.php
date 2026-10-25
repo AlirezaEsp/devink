@@ -1,10 +1,10 @@
 <?php
 
 
-use Illuminate\Support\Facades\Route;
-
+use App\Features\Article\Controllers\ArticleController;
 use App\Features\Account\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('accounts')->name('accounts.')->group(function () {
@@ -39,4 +39,11 @@ Route::prefix('v1')->group(function () {
         });
     });
 
+    // Article routes
+    Route::prefix("articles")->name('articles.')->group(function () {
+        // Authentication required routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('', [ArticleController::class, 'store'])->name('store');
+        });
+    });
 });
