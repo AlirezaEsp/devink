@@ -6,8 +6,8 @@
 .tinker
 
 .env
-# .env.*
-# !.env.example
+.env.*
+!.env.example
 
 /vendor
 /node_modules
