@@ -44,6 +44,7 @@ Route::prefix('v1')->group(function () {
         // Authentication required routes
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('', [ArticleController::class, 'store'])->name('store');
+            Route::get('mine', [ArticleController::class, 'showMine'])->name('show.mine');
         });
     });
 });
