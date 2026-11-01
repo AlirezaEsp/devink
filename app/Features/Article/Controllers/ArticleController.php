@@ -4,6 +4,7 @@ namespace App\Features\Article\Controllers;
 
 use App\Features\Article\Models\Article;
 use App\Features\Article\Requests\StoreArticleRequest;
+use App\Features\Article\Resources\ArticleDetailedResource;
 use App\Features\Article\Resources\ArticleResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -48,5 +49,27 @@ class ArticleController
 
         // return user articles collection
         return ArticleResource::collection($articles);
+    }
+    
+    /**
+     * PreviewArticle
+     *
+     * @param Request $request 
+     * @param int $id 
+     *
+     * @return ArticleDetailedResource
+     */
+    public function preview(Request $request, int $id): ArticleDetailedResource {
+        // get authenticated user id from request
+        $userId = $request->user()->id;
+
+        // find user desired article from db
+        $article = Article::query()
+            ->where('user_id', $userId)
+            ->where('id', $id)
+            ->firstOrFail();
+        
+        // return founded article resource
+        return new ArticleDetailedResource($article);
     }
 }
