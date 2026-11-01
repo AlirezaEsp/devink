@@ -7,8 +7,7 @@ use App\Features\Article\Requests\StoreArticleRequest;
 use App\Features\Article\Resources\ArticleResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use function Pest\Laravel\artisan;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ArticleController
 {    
@@ -31,5 +30,23 @@ class ArticleController
             'message' => 'Article created successfully.',
             'article' => new ArticleResource($newArticle),
         ], 201);
+    }
+    
+    /**
+     * ShowMine
+     *
+     * @param Request $request 
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function showMine(Request $request): AnonymousResourceCollection {
+        // get authenticated user articles from db
+        $articles = Article::query()
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->paginate(3);
+
+        // return user articles collection
+        return ArticleResource::collection($articles);
     }
 }
