@@ -9,7 +9,7 @@ use App\Features\Account\Models\User;
 /**
  * ProfileResource
  * 
- * Profile model seriailization
+ * Profile model serialization
  * 
  * @mixin User
  */
