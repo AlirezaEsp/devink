@@ -45,6 +45,7 @@ Route::prefix('v1')->group(function () {
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('', [ArticleController::class, 'store'])->name('store');
             Route::get('mine', [ArticleController::class, 'showMine'])->name('show.mine');
+            Route::get('{id}/preview', [ArticleController::class, 'preview'])->name('preview');
         });
     });
 });
