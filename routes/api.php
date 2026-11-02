@@ -48,6 +48,7 @@ Route::prefix('v1')->group(function () {
             Route::get('mine', [ArticleController::class, 'showMine'])->name('show.mine');
             Route::get('{id}/preview', [ArticleController::class, 'preview'])->name('preview');
             Route::patch('{id}', [ArticleController::class, 'update'])->name('update');
+            Route::delete('{id}', [ArticleController::class, 'destroy'])->name('destroy');
         });
     });
 });
