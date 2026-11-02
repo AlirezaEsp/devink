@@ -170,4 +170,42 @@ class ArticleController
             'article' => new ArticleResource($article)
         ]);
     }
+
+        /**
+     * UnpublishArticle
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function unpublish(Request $request, int $id): JsonResponse {
+        // get user
+        $user = $request->user();
+
+        // fetch article from db
+        $article = Article::query()
+            ->where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+        
+        // prevent from unpublishing an already drafted article
+        if ($article->status === ArticleStatus::Draft) {
+            return response()->json([
+                'message' => 'Article is already a draft.'
+            ], 409);
+        }
+        
+        // update status and published_at fields in article
+            $article->forceFill([
+            'status' => ArticleStatus::Draft,
+            'published_at' => null
+            ])->save();
+
+        // return successful message with article resource
+        return response()->json([
+            'message' => 'Article unpublished successfully. now it is a draft.',
+            'article' => new ArticleResource($article)
+        ]);
+    }
 }
