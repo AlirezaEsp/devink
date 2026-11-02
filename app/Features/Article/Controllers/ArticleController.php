@@ -2,6 +2,7 @@
 
 namespace App\Features\Article\Controllers;
 
+use App\Features\Article\Enums\ArticleStatus;
 use App\Features\Article\Models\Article;
 use App\Features\Article\Requests\StoreArticleRequest;
 use App\Features\Article\Requests\UpdateArticleRequest;
@@ -129,6 +130,44 @@ class ArticleController
         // return successful message
         return response()->json([
             'message' => 'Article deleted successfully.'
+        ]);
+    }
+
+    /**
+     * PublishArticle
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function publish(Request $request, int $id): JsonResponse {
+        // get user
+        $user = $request->user();
+
+        // fetch article from db
+        $article = Article::query()
+            ->where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+        
+        // prevent from publishing an already published article
+        if ($article->status === ArticleStatus::Published) {
+            return response()->json([
+                'message' => 'Article has already been published.'
+            ], 409);
+        }
+        
+        // update status and published fields in article
+            $article->forceFill([
+            'status' => ArticleStatus::Published,
+            'published_at' => now()
+            ])->save();
+
+        // return successful message with article resource
+        return response()->json([
+            'message' => 'Article published successfully.',
+            'article' => new ArticleResource($article)
         ]);
     }
 }
