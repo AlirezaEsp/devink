@@ -4,6 +4,7 @@ namespace App\Features\Article\Controllers;
 
 use App\Features\Article\Models\Article;
 use App\Features\Article\Requests\StoreArticleRequest;
+use App\Features\Article\Requests\UpdateArticleRequest;
 use App\Features\Article\Resources\ArticleDetailedResource;
 use App\Features\Article\Resources\ArticleResource;
 use Illuminate\Http\JsonResponse;
@@ -72,4 +73,36 @@ class ArticleController
         // return founded article resource
         return new ArticleDetailedResource($article);
     }
+    
+    /**
+     * UpdateArticle
+     *
+     * @param UpdateArticleRequest $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function update(UpdateArticleRequest $request, int $id): JsonResponse {
+        // get user
+        $user = $request->user();
+
+        // fetch article from db
+        $article = Article::query()
+            ->where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        // get article data to be replaced
+        $updateData = $request->validated();
+
+        // update article
+        $article->update($updateData);
+
+        // // return successful message with updated article resource
+        return response()->json([
+            'message' => 'Article updated successfully.',
+            'article' => new ArticleResource($article)
+        ]);
+    }
+    
 }
