@@ -51,7 +51,7 @@ class ArticleController
         // return user articles collection
         return ArticleResource::collection($articles);
     }
-    
+
     /**
      * PreviewArticle
      *
@@ -73,7 +73,7 @@ class ArticleController
         // return founded article resource
         return new ArticleDetailedResource($article);
     }
-    
+
     /**
      * UpdateArticle
      *
@@ -98,11 +98,37 @@ class ArticleController
         // update article
         $article->update($updateData);
 
-        // // return successful message with updated article resource
+        // return successful message with updated article resource
         return response()->json([
             'message' => 'Article updated successfully.',
             'article' => new ArticleResource($article)
         ]);
     }
-    
+
+    /**
+     * DeleteArticle
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $id): JsonResponse {
+        // get user
+        $user = $request->user();
+
+        // fetch article from db
+        $article = Article::query()
+            ->where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        // delete article
+        $article->delete();
+
+        // return successful message
+        return response()->json([
+            'message' => 'Article deleted successfully.'
+        ]);
+    }
 }
