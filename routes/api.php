@@ -49,6 +49,8 @@ Route::prefix('v1')->group(function () {
             Route::get('{id}/preview', [ArticleController::class, 'preview'])->name('preview');
             Route::patch('{id}', [ArticleController::class, 'update'])->name('update');
             Route::delete('{id}', [ArticleController::class, 'destroy'])->name('destroy');
+            Route::post('{id}/publish', [ArticleController::class, 'publish'])->name('publish');
+            Route::post('{id}/unpublish', [ArticleController::class, 'unpublish'])->name('unpublish');
         });
     });
 });
