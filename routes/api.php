@@ -7,6 +7,7 @@ use App\Features\Account\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
+    // Account routes
     Route::prefix('accounts')->name('accounts.')->group(function () {
         // Authentication routes: register, login, logout
         Route::prefix('auth')->name('auth.')->group(function () {
@@ -46,6 +47,7 @@ Route::prefix('v1')->group(function () {
             Route::post('', [ArticleController::class, 'store'])->name('store');
             Route::get('mine', [ArticleController::class, 'showMine'])->name('show.mine');
             Route::get('{id}/preview', [ArticleController::class, 'preview'])->name('preview');
+            Route::patch('{id}', [ArticleController::class, 'update'])->name('update');
         });
     });
 });
