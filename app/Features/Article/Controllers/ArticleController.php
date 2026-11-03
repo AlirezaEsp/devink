@@ -2,6 +2,7 @@
 
 namespace App\Features\Article\Controllers;
 
+use App\Features\Account\Models\User;
 use App\Features\Article\Enums\ArticleStatus;
 use App\Features\Article\Models\Article;
 use App\Features\Article\Requests\StoreArticleRequest;
@@ -15,7 +16,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class ArticleController
 {    
     /**
-     * StoreArticle
+     * Store
      *
      * @param StoreArticleRequest $request 
      *
@@ -54,7 +55,7 @@ class ArticleController
     }
 
     /**
-     * PreviewArticle
+     * Preview
      *
      * @param Request $request 
      * @param int $id 
@@ -76,7 +77,7 @@ class ArticleController
     }
 
     /**
-     * UpdateArticle
+     * Update
      *
      * @param UpdateArticleRequest $request
      * @param int $id
@@ -107,7 +108,7 @@ class ArticleController
     }
 
     /**
-     * DeleteArticle
+     * Delete
      *
      * @param Request $request
      * @param int $id
@@ -134,7 +135,7 @@ class ArticleController
     }
 
     /**
-     * PublishArticle
+     * Publish
      *
      * @param Request $request
      * @param int $id
@@ -172,7 +173,7 @@ class ArticleController
     }
 
         /**
-     * UnpublishArticle
+     * Unpublish
      *
      * @param Request $request
      * @param int $id
@@ -207,5 +208,30 @@ class ArticleController
             'message' => 'Article unpublished successfully. now it is a draft.',
             'article' => new ArticleResource($article)
         ]);
+    }
+
+    /**
+     * Show
+     *
+     * @param string $username
+     * @param string $slug
+     *
+     * @return ArticleDetailedResource
+     */
+    public function show(string $username, string $slug): ArticleDetailedResource {
+        // find user
+        $user = User::query()
+            ->where('username', $username)
+            ->firstOrFail();
+        
+        // fetch article from db
+        $article = Article::query()
+            ->where('user_id', $user->id)
+            ->where('slug', $slug)
+            ->where('status', ArticleStatus::Published)
+            ->firstOrFail();
+        
+        // return founded article resource
+        return new ArticleDetailedResource($article);
     }
 }
