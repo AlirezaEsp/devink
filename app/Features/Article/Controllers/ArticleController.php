@@ -160,10 +160,10 @@ class ArticleController
         }
         
         // update status and published fields in article
-            $article->forceFill([
-            'status' => ArticleStatus::Published,
-            'published_at' => now()
-            ])->save();
+        $article->forceFill([
+        'status' => ArticleStatus::Published,
+        'published_at' => now()
+        ])->save();
 
         // return successful message with article resource
         return response()->json([
@@ -198,10 +198,10 @@ class ArticleController
         }
         
         // update status and published_at fields in article
-            $article->forceFill([
-            'status' => ArticleStatus::Draft,
-            'published_at' => null
-            ])->save();
+        $article->forceFill([
+        'status' => ArticleStatus::Draft,
+        'published_at' => null
+        ])->save();
 
         // return successful message with article resource
         return response()->json([
