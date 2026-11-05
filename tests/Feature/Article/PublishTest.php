@@ -26,7 +26,7 @@ describe('Publish', function () {
 
     describe('Success', function () {
     
-        it('Publish an article successfully.', function () {
+        it('Publishes an article successfully.', function () {
             $response = postJson(
                 publishUrl($this->article->id),
                 [],
@@ -35,6 +35,14 @@ describe('Publish', function () {
 
             $response
                 ->assertOk()
+                ->assertExactJsonStructure([
+                    'message',
+                    'article' => [
+                        'id',
+                        'title',
+                        'slug',
+                    ],
+                ])
                 ->assertJson([
                     'message' => 'Article published successfully.',
                 ]);
@@ -45,18 +53,6 @@ describe('Publish', function () {
             ]);
 
             $this->assertNotNull($this->article->fresh()->published_at);
-        });
-
-        it('returns 404 when trying to publish a deleted article.', function () {
-            $this->article->delete();
-
-            $response = postJson(
-                publishUrl($this->article->id),
-                [],
-                generateAuthHeader($this->token)
-            );
-
-            $response->assertNotFound();
         });
     });
 
@@ -100,8 +96,11 @@ describe('Publish', function () {
                 generateAuthHeader($this->token)
             );
 
-            $response->
-                assertConflict();
+            $response
+                ->assertConflict()
+                ->assertJson([
+                'message' => 'Article has already been published.',
+            ]);
         });
     });
 
@@ -139,6 +138,16 @@ describe('Publish', function () {
             $response->assertNotFound();
         });
 
+        it('returns 404 when trying to publish a deleted article.', function () {
+            $this->article->delete();
 
+            $response = postJson(
+                publishUrl($this->article->id),
+                [],
+                generateAuthHeader($this->token)
+            );
+
+            $response->assertNotFound();
+        });
     });
 });
