@@ -2,7 +2,6 @@
 
 use App\Features\Account\Models\User;
 use App\Features\Article\Enums\ArticleStatus;
-use App\Features\Article\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\postJson;
 
