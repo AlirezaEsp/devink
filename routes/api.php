@@ -1,14 +1,15 @@
 <?php
 
 
-use Illuminate\Support\Facades\Route;
-
+use App\Features\Article\Controllers\ArticleController;
 use App\Features\Account\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
+    // Account routes
     Route::prefix('accounts')->name('accounts.')->group(function () {
-        // Authentication routes: register, login, logout
+        // Authentication routes
         Route::prefix('auth')->name('auth.')->group(function () {
             // without auth
             Route::post('register', [AuthController::class, 'register'])->name('register');
@@ -26,12 +27,12 @@ Route::prefix('v1')->group(function () {
             });
         });
 
-        // Profile routes: profile
+        // Profile routes
         Route::prefix('profile')->name('profile.')->group(function () {
-            // Public profile routes: showpublic (without auth)
+            // without auth
             Route::get('public/{username}', [ProfileController::class, 'showPublic'])->name('show.public');
 
-            // Private profile routes: show, update (with auth)
+            // with auth
             Route::middleware('auth:sanctum')->group(function () {
                 Route::get('private', [ProfileController::class, 'show'])->name('show');
                 Route::patch('private', [ProfileController::class, 'update'])->name('update');
@@ -39,4 +40,19 @@ Route::prefix('v1')->group(function () {
         });
     });
 
+    // Article routes
+    Route::prefix("articles")->name('articles.')->group(function () {
+        // with auth
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('', [ArticleController::class, 'store'])->name('store');
+            Route::get('mine', [ArticleController::class, 'showMine'])->name('show.mine');
+            Route::get('{id}/preview', [ArticleController::class, 'preview'])->name('preview');
+            Route::patch('{id}', [ArticleController::class, 'update'])->name('update');
+            Route::delete('{id}', [ArticleController::class, 'destroy'])->name('destroy');
+            Route::post('{id}/publish', [ArticleController::class, 'publish'])->name('publish');
+            Route::post('{id}/unpublish', [ArticleController::class, 'unpublish'])->name('unpublish');
+        });
+
+        Route::get('{username}/{slug}', [ArticleController::class, 'show'])->name('show');
+    });
 });
