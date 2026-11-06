@@ -4,6 +4,7 @@
 use App\Features\Article\Controllers\ArticleController;
 use App\Features\Account\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
+use App\Features\Reaction\Controllers\ReactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -53,6 +54,16 @@ Route::prefix('v1')->group(function () {
             Route::post('{id}/unpublish', [ArticleController::class, 'unpublish'])->name('unpublish');
         });
 
+        // without
         Route::get('{username}/{slug}', [ArticleController::class, 'show'])->name('show');
+    });
+
+    // Reaction routes
+    Route::prefix("articles")->name('articles.')->group(function () {
+        // with auth
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('{id}/reaction', [ReactionController::class, 'store'])->name('like');
+            Route::delete('{id}/reaction', [ReactionController::class, 'destroy'])->name('unlike');
+        });
     });
 });
