@@ -3,6 +3,7 @@
 namespace App\Features\Account\Models;
 
 use App\Features\Article\Models\Article;
+use App\Features\Reaction\Models\Reaction;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\Features\Account\Models\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -46,5 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function articles(): HasMany {
         return $this->hasMany(Article::class);
+    }
+
+    public function reactions(): HasMany {
+        return $this->hasMany(Reaction::class);
     }
 }

@@ -68,6 +68,11 @@ class ArticleController
 
         // find user desired article from db
         $article = Article::query()
+            ->withCount('reactions')
+            ->withExists([
+                'reactions as is_reacted' => fn ($query) =>
+                    $query->where('user_id', $userId),
+            ])
             ->where('user_id', $userId)
             ->where('id', $id)
             ->firstOrFail();
@@ -219,14 +224,22 @@ class ArticleController
      * @return ArticleDetailedResource
      */
     public function show(string $username, string $slug): ArticleDetailedResource {
-        // find user
-        $user = User::query()
+        // find author
+        $author = User::query()
             ->where('username', $username)
             ->firstOrFail();
         
+        // get authenticated user id (nullable)
+        $userId = auth()->id();
+        
         // fetch article from db
         $article = Article::query()
-            ->where('user_id', $user->id)
+            ->withCount('reactions')
+            ->withExists([
+                'reactions as is_reacted' => fn ($query) =>
+                    $query->where('user_id', $userId),
+            ])
+            ->where('user_id', $author->id)
             ->where('slug', $slug)
             ->where('status', ArticleStatus::Published)
             ->firstOrFail();
