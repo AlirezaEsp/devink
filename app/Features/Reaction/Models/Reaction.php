@@ -4,10 +4,12 @@ namespace App\Features\Reaction\Models;
 
 use App\Features\Account\Models\User;
 use App\Features\Article\Models\Article;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[Fillable(['user_id', 'article_id'])]
 class Reaction extends Model
 {
     use HasFactory;
