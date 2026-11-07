@@ -8,7 +8,7 @@ use function Pest\Laravel\deleteJson;
 
 uses(RefreshDatabase::class);
 
-function deleteUrl(int $articleId): string {
+function deleteArticleUrl(int $articleId): string {
     return route('articles.destroy', ['id' => $articleId]);
 }
 
@@ -28,7 +28,7 @@ describe('Delete', function () {
     
         it('Deletes an article successfully.', function () {
             $response = deleteJson(
-                deleteUrl($this->article->id),
+                deleteArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -49,7 +49,7 @@ describe('Delete', function () {
 
         it('rejects an invalid token.', function () {
             $response = deleteJson(
-                deleteUrl($this->article->id),
+                deleteArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token . 'X')
             );
@@ -62,7 +62,7 @@ describe('Delete', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = deleteJson(deleteUrl($this->article->id));
+            $response = deleteJson(deleteArticleUrl($this->article->id));
 
             $response
                 ->assertUnauthorized()
@@ -82,7 +82,7 @@ describe('Delete', function () {
                 ->create();
 
             $response = deleteJson(
-                deleteUrl($anotherArticle->id),
+                deleteArticleUrl($anotherArticle->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -97,7 +97,7 @@ describe('Delete', function () {
 
         it('rejects deleting a non-existing article.', function () {
             $response = deleteJson(
-                deleteUrl(999999),
+                deleteArticleUrl(999999),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -109,7 +109,7 @@ describe('Delete', function () {
             $this->article->delete();
 
             $response = deleteJson(
-                deleteUrl($this->article->id),
+                deleteArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );

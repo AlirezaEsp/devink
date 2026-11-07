@@ -8,7 +8,7 @@ use function Pest\Laravel\getJson;
 
 uses(RefreshDatabase::class);
 
-function showUrl(string $authorUsername, string $articleSlug): string {
+function showArticleUrl(string $authorUsername, string $articleSlug): string {
     return route('articles.show', ['username' => $authorUsername, 'slug' => $articleSlug]);
 }
 
@@ -27,7 +27,7 @@ describe('Show', function () {
     
         it('shows a published article successfully.', function () {
             $response = getJson(
-                showUrl(
+                showArticleUrl(
                     $this->user->username,
                     $this->article->slug
                 ),
@@ -65,7 +65,7 @@ describe('Show', function () {
                 ->create();
 
             $response = getJson(
-                showUrl($anotherUser->username, $anotherArticle->slug)
+                showArticleUrl($anotherUser->username, $anotherArticle->slug)
             );
 
             $response
@@ -82,7 +82,7 @@ describe('Show', function () {
 
         it('returns 404 when the author does not exist.', function () {
             $response = getJson(
-                showUrl('unknown-user', $this->article->slug)
+                showArticleUrl('unknown-user', $this->article->slug)
             );
 
             $response->assertNotFound();
@@ -90,7 +90,7 @@ describe('Show', function () {
 
         it('returns 404 when the article does not exist.', function () {
             $response = getJson(
-                showUrl($this->user->username, 'unknown-article')
+                showArticleUrl($this->user->username, 'unknown-article')
             );
 
             $response->assertNotFound();
@@ -100,7 +100,7 @@ describe('Show', function () {
             $anotherUser = User::factory()->create();
 
             $response = getJson(
-                showUrl($anotherUser->username, $this->article->slug)
+                showArticleUrl($anotherUser->username, $this->article->slug)
             );
 
             $response->assertNotFound();
@@ -116,7 +116,7 @@ describe('Show', function () {
             ])->save();
 
             $response = getJson(
-                showUrl(
+                showArticleUrl(
                     $this->user->username,
                     $this->article->slug
                 ),
@@ -129,7 +129,7 @@ describe('Show', function () {
             $this->article->delete();
 
             $response = getJson(
-                showUrl($this->user->username, $this->article->slug)
+                showArticleUrl($this->user->username, $this->article->slug)
             );
 
             $response->assertNotFound();
