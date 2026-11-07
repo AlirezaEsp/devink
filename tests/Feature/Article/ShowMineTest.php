@@ -7,7 +7,7 @@ use function Pest\Laravel\getJson;
 
 uses(RefreshDatabase::class);
 
-function showMineUrl(): string {
+function showMineArticleUrl(): string {
     return route('articles.show.mine');
 }
 
@@ -28,7 +28,7 @@ describe('ShowMine', function () {
                 ->create();
 
             $response = getJson(
-                showMineUrl(),
+                showMineArticleUrl(),
                 generateAuthHeader($this->token)
             );
 
@@ -72,7 +72,7 @@ describe('ShowMine', function () {
     describe('Authentication Failure', function () {
 
         it('rejects an invalid token.', function () {
-            $response = getJson(showMineUrl(), generateAuthHeader($this->token . 'X'));
+            $response = getJson(showMineArticleUrl(), generateAuthHeader($this->token . 'X'));
 
             $response
                 ->assertUnauthorized()
@@ -82,7 +82,7 @@ describe('ShowMine', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = getJson(showMineUrl());
+            $response = getJson(showMineArticleUrl());
 
             $response
                 ->assertUnauthorized()

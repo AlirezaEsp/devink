@@ -7,14 +7,14 @@ use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
-function storePayload(array $overrides = []) : array {
+function storeArticlePayload(array $overrides = []) : array {
     return array_merge([
         "title" => "string",
         "slug" => "string",
         "body" => "string"
     ], $overrides);
 }
-function storeUrl(): string {
+function storeArticleUrl(): string {
     return route('articles.store');
 }
 
@@ -29,11 +29,11 @@ describe('Store', function () {
     describe('Success', function () {
     
         it('Stores new article successfully.', function () {
-            $payload = storePayload();
+            $payload = storeArticlePayload();
         
             $response = postJson(
-                storeUrl(),
-                storePayload(),
+                storeArticleUrl(),
+                storeArticlePayload(),
                 generateAuthHeader($this->token)
             );
 
@@ -68,7 +68,7 @@ describe('Store', function () {
     describe('Authentication Failure', function () {
 
         it('rejects an invalid token.', function () {
-            $response = postJson(storeUrl(), [], generateAuthHeader($this->token . 'X'));
+            $response = postJson(storeArticleUrl(), [], generateAuthHeader($this->token . 'X'));
 
             $response->
                 assertUnauthorized()->
@@ -78,7 +78,7 @@ describe('Store', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = postJson(storeUrl());
+            $response = postJson(storeArticleUrl());
 
             $response
                 ->assertUnauthorized()
@@ -92,8 +92,8 @@ describe('Store', function () {
 
         it('rejects an title longer than 255 chars.', function () {
             $response = postJson(
-                storeUrl(),
-                storePayload([
+                storeArticleUrl(),
+                storeArticlePayload([
                     'title' => str_repeat('string', 70)
                 ]),
                 generateAuthHeader($this->token)
@@ -109,14 +109,14 @@ describe('Store', function () {
 
         it('rejects storing an existing slug.', function () {
             postJson(
-                storeUrl(),
-                storePayload(),
+                storeArticleUrl(),
+                storeArticlePayload(),
                 generateAuthHeader($this->token)
             );
 
             $response = postJson(
-                storeUrl(),
-                storePayload(),
+                storeArticleUrl(),
+                storeArticlePayload(),
                 generateAuthHeader($this->token)
             );
 

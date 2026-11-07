@@ -8,7 +8,7 @@ use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
-function unpublishUrl(int $articleId): string {
+function unpublishArticleUrl(int $articleId): string {
     return route('articles.unpublish', ['id' => $articleId]);
 }
 
@@ -29,7 +29,7 @@ describe('Unpublish', function () {
     
         it('Unpublishes an article successfully.', function () {
             $response = postJson(
-                unpublishUrl($this->article->id),
+                unpublishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -61,7 +61,7 @@ describe('Unpublish', function () {
 
         it('rejects an invalid token.', function () {
             $response = postJson(
-                unpublishUrl($this->article->id),
+                unpublishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token . 'X')
             );
@@ -74,7 +74,7 @@ describe('Unpublish', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = postJson(unpublishUrl($this->article->id));
+            $response = postJson(unpublishArticleUrl($this->article->id));
 
             $response
                 ->assertUnauthorized()
@@ -92,7 +92,7 @@ describe('Unpublish', function () {
             ])->save();
 
             $response = postJson(
-                unpublishUrl($this->article->id),
+                unpublishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -116,7 +116,7 @@ describe('Unpublish', function () {
                 ->create();
 
             $response = postJson(
-                unpublishUrl($anotherArticle->id),
+                unpublishArticleUrl($anotherArticle->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -133,7 +133,7 @@ describe('Unpublish', function () {
 
         it('returns 404 when the article does not exist.', function () {
             $response = postJson(
-                unpublishUrl(999999),
+                unpublishArticleUrl(999999),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -145,7 +145,7 @@ describe('Unpublish', function () {
             $this->article->delete();
 
             $response = postJson(
-                unpublishUrl($this->article->id),
+                unpublishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );

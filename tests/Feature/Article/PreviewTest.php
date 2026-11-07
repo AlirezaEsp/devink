@@ -7,7 +7,7 @@ use function Pest\Laravel\getJson;
 
 uses(RefreshDatabase::class);
 
-function previewUrl(int $articleId): string {
+function previewArticleUrl(int $articleId): string {
     return route('articles.preview', ['id' => $articleId]);
 }
 
@@ -27,7 +27,7 @@ describe('Preview', function () {
     
         it('Fetches an article preview successfully.', function () {
             $response = getJson(
-                previewUrl($this->article->id),
+                previewArticleUrl($this->article->id),
                 generateAuthHeader($this->token)
             );
 
@@ -57,7 +57,7 @@ describe('Preview', function () {
 
         it('rejects an invalid token.', function () {
             $response = getJson(
-                previewUrl($this->article->id),
+                previewArticleUrl($this->article->id),
                 generateAuthHeader($this->token . 'X')
             );
 
@@ -69,7 +69,7 @@ describe('Preview', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = getJson(previewUrl($this->article->id));
+            $response = getJson(previewArticleUrl($this->article->id));
 
             $response
                 ->assertUnauthorized()
@@ -89,7 +89,7 @@ describe('Preview', function () {
                 ->create();
 
             $response = getJson(
-                previewUrl($anotherArticle->id),
+                previewArticleUrl($anotherArticle->id),
                 generateAuthHeader($this->token)
             );
 
@@ -98,7 +98,7 @@ describe('Preview', function () {
 
         it('rejects previewing a non-existing article.', function () {
             $response = getJson(
-                previewUrl(999999),
+                previewArticleUrl(999999),
                 generateAuthHeader($this->token)
             );
 
@@ -109,7 +109,7 @@ describe('Preview', function () {
             $this->article->delete();
 
             $response = getJson(
-                previewUrl($this->article->id),
+                previewArticleUrl($this->article->id),
                 generateAuthHeader($this->token)
             );
 
