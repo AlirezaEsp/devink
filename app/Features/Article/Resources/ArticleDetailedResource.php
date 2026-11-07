@@ -32,6 +32,8 @@ class ArticleDetailedResource extends JsonResource
              * @var 'draft'|'published'
              */
             'status' => $this->status->value,
+            'reactions_count' => $this->reactions_count ?? 0,
+            'is_reacted' => (bool) ($this->is_reacted ?? false),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'published_at' => $this->published_at
