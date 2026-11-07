@@ -28,6 +28,8 @@ class ReactionController
         $reactionExists = $article->reactions()
             ->where('user_id', $user->id)
             ->exists();
+
+        // return conflict message
         if ($reactionExists) {
             return response()->json([
                 'message' => 'Reaction already exists.'
@@ -44,10 +46,42 @@ class ReactionController
             'message' => 'Reaction added successfully.'
         ], 201);
     }
+    
+    /**
+     * Destroy
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $id): JsonResponse {
+        // get user
+        $user = $request->user();
 
-    // public function detsroy(): JsonResponse {
-    //     return response()->json([
-    //         'message' => 'Reaction removed successfully.'
-    //     ]);
-    // }
+        // fetch desired article
+        $article = Article::findOrFail($id);
+
+        // check for reaction
+        $reactionExists = $article->reactions()
+            ->where('user_id', $user->id)
+            ->exists();
+
+        // return conflict message
+        if (!$reactionExists) {
+            return response()->json([
+                'message' => 'Reaction does not exist.'
+            ], 409);
+        }
+
+        // remove reaction
+        $article->reactions()
+            ->where('user_id', $user->id)
+            ->delete();
+    
+        // return successful message
+        return response()->json([
+            'message' => 'Reaction removed successfully.'
+        ]);
+    }
 }
