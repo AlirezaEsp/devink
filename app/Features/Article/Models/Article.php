@@ -4,6 +4,7 @@ namespace App\Features\Article\Models;
 
 use App\Features\Account\Models\User;
 use App\Features\Article\Enums\ArticleStatus;
+use App\Features\Bookmark\Models\Bookmark;
 use App\Features\Reaction\Models\Reaction;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +34,10 @@ class Article extends Model
 
     public function reactions(): HasMany {
         return $this->hasMany(Reaction::class);
+    }
+
+    public function bookmarks(): HasMany {
+        return $this->hasMany(Bookmark::class);
     }
 
     protected $attributes = [
