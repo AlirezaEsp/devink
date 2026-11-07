@@ -2,6 +2,7 @@
 
 namespace App\Features\Reaction\Controllers;
 
+use App\Features\Article\Enums\ArticleStatus;
 use App\Features\Article\Models\Article;
 use App\Features\Reaction\Models\Reaction;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +23,9 @@ class ReactionController
         $user = $request->user();
 
         // fetch desired article
-        $article = Article::findOrFail($id);
+        $article = Article::query()
+            ->where('status', ArticleStatus::Published)
+            ->findOrFail($id);
 
         // check for reaction
         $reactionExists = $article->reactions()
@@ -60,7 +63,9 @@ class ReactionController
         $user = $request->user();
 
         // fetch desired article
-        $article = Article::findOrFail($id);
+        $article = Article::query()
+            ->where('status', ArticleStatus::Published)
+            ->findOrFail($id);
 
         // check for reaction
         $reactionExists = $article->reactions()
