@@ -8,7 +8,7 @@ use function Pest\Laravel\postJson;
 
 uses(RefreshDatabase::class);
 
-function publishUrl(int $articleId): string {
+function publishArticleUrl(int $articleId): string {
     return route('articles.publish', ['id' => $articleId]);
 }
 
@@ -28,7 +28,7 @@ describe('Publish', function () {
     
         it('Publishes an article successfully.', function () {
             $response = postJson(
-                publishUrl($this->article->id),
+                publishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -60,7 +60,7 @@ describe('Publish', function () {
 
         it('rejects an invalid token.', function () {
             $response = postJson(
-                publishUrl($this->article->id),
+                publishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token . 'X')
             );
@@ -73,7 +73,7 @@ describe('Publish', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = postJson(publishUrl($this->article->id));
+            $response = postJson(publishArticleUrl($this->article->id));
 
             $response
                 ->assertUnauthorized()
@@ -91,7 +91,7 @@ describe('Publish', function () {
             ])->save();
 
             $response = postJson(
-                publishUrl($this->article->id),
+                publishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -114,7 +114,7 @@ describe('Publish', function () {
                 ->create();
 
             $response = postJson(
-                publishUrl($anotherArticle->id),
+                publishArticleUrl($anotherArticle->id),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -130,7 +130,7 @@ describe('Publish', function () {
 
         it('returns 404 when the article does not exist.', function () {
             $response = postJson(
-                publishUrl(999999),
+                publishArticleUrl(999999),
                 [],
                 generateAuthHeader($this->token)
             );
@@ -142,7 +142,7 @@ describe('Publish', function () {
             $this->article->delete();
 
             $response = postJson(
-                publishUrl($this->article->id),
+                publishArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token)
             );

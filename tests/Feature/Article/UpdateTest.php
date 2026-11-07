@@ -7,14 +7,14 @@ use function Pest\Laravel\patchJson;
 
 uses(RefreshDatabase::class);
 
-function updatePayload(array $overrides = []) : array {
+function updateArticlePayload(array $overrides = []) : array {
     return array_merge([
         "title" => "stringUPDATED",
         "slug" => "stringUPDATED",
         "body" => "stringUPDATED"
     ], $overrides);
 }
-function updateUrl(int $articleId): string {
+function updateArticleUrl(int $articleId): string {
     return route('articles.update', ['id' => $articleId]);
 }
 
@@ -33,10 +33,10 @@ describe('Update', function () {
     describe('Success', function () {
     
         it('Updates an existing article successfully.', function () {
-            $payload = updatePayload();
+            $payload = updateArticlePayload();
         
             $response = patchJson(
-                updateUrl($this->article->id),
+                updateArticleUrl($this->article->id),
                 $payload,
                 generateAuthHeader($this->token)
             );
@@ -73,7 +73,7 @@ describe('Update', function () {
 
         it('rejects an invalid token.', function () {
             $response = patchJson(
-                updateUrl($this->article->id),
+                updateArticleUrl($this->article->id),
                 [],
                 generateAuthHeader($this->token . 'X')
             );
@@ -86,7 +86,7 @@ describe('Update', function () {
         });
 
         it('rejects a request without an access token.', function () {
-            $response = patchJson(updateUrl($this->article->id));
+            $response = patchJson(updateArticleUrl($this->article->id));
 
             $response
                 ->assertUnauthorized()
@@ -100,8 +100,8 @@ describe('Update', function () {
 
         it('rejects an title longer than 255 chars.', function () {
             $response = patchJson(
-                updateUrl($this->article->id),
-                updatePayload([
+                updateArticleUrl($this->article->id),
+                updateArticlePayload([
                     'title' => str_repeat('string', 70)
                 ]),
                 generateAuthHeader($this->token)
@@ -123,8 +123,8 @@ describe('Update', function () {
             ]);
 
             $response = patchJson(
-                updateUrl($this->article->id),
-                updatePayload([
+                updateArticleUrl($this->article->id),
+                updateArticlePayload([
                     'slug' => 'stringANOTHER'
                 ]),
                 generateAuthHeader($this->token)
