@@ -48,4 +48,60 @@ class BookmarkController
             'message' => 'Article bookmarked successfully.'
         ], 201);
     }
+
+    /**
+     * Destroy
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $id): JsonResponse {
+        // get user
+        $user = $request->user();
+
+        // fetch desired article
+        $article = Article::query()
+            // ->where('status', ArticleStatus::Published) ???
+            ->findOrFail($id);
+
+        // METHOD 1 ----------------------------------
+            // check for bookmark
+            $bookmarkExists = $article->bookmarks()
+                ->where('user_id', $user->id)
+                ->exists();
+
+            // return conflict message
+            if (!$bookmarkExists) {
+                return response()->json([
+                    'message' => 'Article is not bookmarked.'
+                ], 409);
+            }
+
+            // remove bookmark
+            $article->bookmarks()
+                ->where('user_id', $user->id)
+                ->delete();
+        // ----------------------------------
+
+        // METHOD 2 ----------------------------------
+            // // remove bookmark (naturally check for bookmark)
+            // $deleted = $article->bookmarks()
+            //     ->where('user_id', $user->id)
+            //     ->delete();
+
+            // // return conflict message
+            // if (!$deleted) {
+            //     return response()->json([
+            //         'message' => 'Article is not bookmarked.',
+            //     ], 409);
+            // }
+        // ----------------------------------
+
+        // return successful message
+        return response()->json([
+            'message' => 'Article bookmark removed successfully.'
+        ]);
+    }
 }
