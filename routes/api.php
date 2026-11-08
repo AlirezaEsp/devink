@@ -76,4 +76,11 @@ Route::prefix('v1')->group(function () {
             Route::delete('{id}/bookmark', [BookmarkController::class, 'destroy'])->name('unbookmark');
         });
     });
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::prefix('me')->name('me.')->group(function () {
+            Route::middleware('auth:sanctum')->group(function () {
+                Route::get('bookmarks', [BookmarkController::class, 'index'])->name('bookmarks');
+            });
+        });
+    });
 });
