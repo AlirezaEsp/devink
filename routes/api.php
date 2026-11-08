@@ -71,8 +71,9 @@ Route::prefix('v1')->group(function () {
     // Bookmark routes
     Route::prefix('articles')->name('articles.')->group(function () {
         // with auth
-        Route::middleware('auth:sanctume')->group(function () {
+        Route::middleware('auth:sanctum')->group(function () {
             Route::post('{id}/bookmark', [BookmarkController::class, 'store'])->name('bookmark');
+            Route::delete('{id}/bookmark', [BookmarkController::class, 'destroy'])->name('unbookmark');
         });
     });
 });
