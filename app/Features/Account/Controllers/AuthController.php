@@ -18,17 +18,18 @@ use App\Features\Account\Requests\LoginRequest;
 use App\Features\Account\Requests\UpdateUserRequest;
 use App\Features\Account\Requests\ForgotPasswordRequest;
 use App\Features\Account\Requests\ResetPasswordRequest;
+use App\Features\Account\Events\PasswordChanged;
 
 /**
  * AuthController
- * 
+ *
  * Controlls Authentiction flows
  */
 class AuthController
 {
     /**
      * Register
-     * 
+     *
      * @param RegisterRequest $request
      *
      * @return JsonResponse
@@ -82,7 +83,7 @@ class AuthController
         description: 'The signature of the verification URL.',
         type: 'string',
         required: true,
-    )]    
+    )]
     public function verify(int $id, string $hash): JsonResponse {
         // find user
         $user = User::findOrFail($id);
@@ -183,44 +184,42 @@ class AuthController
      * @return JsonResponse
      */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
-    {
-        // get client reset password (validated) credeentials from request
-        $credentials = $request->validated();
+{
+    $credentials = $request->validated();
+    $user = null;
 
-        // define null user to assign value later
-        $user = null;
+    $result = Password::reset(
+        $credentials,
+        function (User $resetUser, string $password) use (&$user, $request): void {
+            $resetUser->forceFill([
+                'password' => Hash::make($password),
+            ])->save();
 
-        // result of password reset operation
-        $result = Password::reset(
-            $credentials,
-            // closure
-            function ($resetUser, string $password) use (&$user) : void {
-                // replace user's password
-                $resetUser->forceFill([
-                    'password' => Hash::make($password),
-                ])->save();
+            $resetUser->tokens()->delete();
 
-                // Invalidate tokens created before the password reset.
-                $resetUser->tokens()->delete();
+            PasswordChanged::dispatch(
+                $resetUser,
+                $request->ip(),
+                $request->userAgent(),
+                now()->toIso8601String(),
+            );
 
-                // assign updated user to user var
-                $user = $resetUser->refresh();
-            }
-        );
-
-        // return unprocessable error if process failed
-        if ($result !== Password::PASSWORD_RESET) {
-            return response()->json([
-                'message' => "The credentials are not valid.",
-            ], 422);
+            $user = $resetUser->refresh();
         }
+    );
 
-        // return successful message along the user info
+    if ($result !== Password::PasswordReset) {
         return response()->json([
-            'message' => __($result),
-            'user' => new UserResource($user)
-        ]);
+            'message' => 'The credentials are not valid.',
+        ], 422);
     }
+
+    return response()->json([
+        'message' => __($result),
+        'user' => new UserResource($user),
+    ]);
+}
+
 
     /**
      * ResendVerification
@@ -321,7 +320,16 @@ class AuthController
         // Invalidate access tokens if password was changed
         if ($passwordChanged) {
             $user->tokens()->delete();
+
+            // security alert: the password was changed from an authenticated session
+            PasswordChanged::dispatch(
+                $user,
+                $request->ip(),
+                $request->userAgent(),
+                now()->toIso8601String(),
+            );
         }
+
 
         // refresh iuser instance
         $user->refresh();

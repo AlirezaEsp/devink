@@ -49,5 +49,7 @@ class DatabaseSeeder extends Seeder
                 ->for($user)
                 ->create();
         }
+        // generate mock notifications for the test user
+        $this->call(NotificationSeeder::class);
     }
 }

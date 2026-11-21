@@ -11,9 +11,12 @@
     "require": {
         "php": "^8.4",
         "dedoc/scramble": "*",
+        "guzzlehttp/guzzle": "*",
+        "http-interop/http-factory-guzzle": "^1.0",
         "laravel/framework": "^13.17",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^3.0"
+        "laravel/tinker": "^3.0",
+        "meilisearch/meilisearch-php": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

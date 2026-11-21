@@ -4,12 +4,13 @@ namespace App\Features\Reaction\Controllers;
 
 use App\Features\Article\Enums\ArticleStatus;
 use App\Features\Article\Models\Article;
+use App\Features\Reaction\Events\ArticleLiked;
 use App\Features\Reaction\Models\Reaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ReactionController
-{    
+{
     /**
      * Store
      *
@@ -18,7 +19,8 @@ class ReactionController
      *
      * @return JsonResponse
      */
-    public function store(Request $request, int $id): JsonResponse {
+    public function store(Request $request, int $id): JsonResponse
+    {
         // get user
         $user = $request->user();
 
@@ -40,16 +42,17 @@ class ReactionController
         }
 
         // create reaction
-        $article->reactions()->create([
+        $reaction = $article->reactions()->create([
             'user_id' => $user->id,
         ]);
-
+        // notify the article owner (aggregated per article)
+        ArticleLiked::dispatch($reaction);
         // return successful message
         return response()->json([
             'message' => 'Reaction added successfully.'
         ], 201);
     }
-    
+
     /**
      * Destroy
      *
@@ -58,7 +61,8 @@ class ReactionController
      *
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $id): JsonResponse {
+    public function destroy(Request $request, int $id): JsonResponse
+    {
         // get user
         $user = $request->user();
 
@@ -83,7 +87,7 @@ class ReactionController
         $article->reactions()
             ->where('user_id', $user->id)
             ->delete();
-    
+
         // return successful message
         return response()->json([
             'message' => 'Reaction removed successfully.'
