@@ -1,5 +1,6 @@
 <?php
 
+use App\Features\Account\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +16,7 @@ use Tests\TestCase;
 */
 
 pest()->extend(TestCase::class)
- // ->use(RefreshDatabase::class)
+    // ->use(RefreshDatabase::class)
     ->in('Feature');
 
 /*
@@ -44,8 +45,23 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function generateAuthHeader(string $token): array {
+function generateAuthHeader(string $token): array
+{
     return [
         'Authorization' => 'Bearer ' . $token
     ];
+}
+
+/**
+ * Create a second user for ownership tests.
+ *
+ * The defaultTestingUser state hardcodes email and username,
+ * so a second call would violate the unique constraints.
+ */
+function makeOtherUser(): User
+{
+    return User::factory()->defaultTestingUser()->create([
+        'email' => fake()->unique()->safeEmail(),
+        'username' => fake()->unique()->userName(),
+    ]);
 }

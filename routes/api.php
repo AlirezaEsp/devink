@@ -4,6 +4,7 @@
 use App\Features\Article\Controllers\ArticleController;
 use App\Features\Account\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
+use App\Features\Notification\Controllers\NotificationController;
 use App\Features\Reaction\Controllers\ReactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ Route::prefix('v1')->group(function () {
             Route::post('login', [AuthController::class, 'login'])->name('login');
             Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
             Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('reset-password');
-    
+
             // with auth
             Route::middleware('auth:sanctum')->group(function () {
                 Route::post('resend', [AuthController::class, 'resend'])->middleware('throttle:6,1')->name('verification.resend');
@@ -64,6 +65,17 @@ Route::prefix('v1')->group(function () {
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('{id}/reaction', [ReactionController::class, 'store'])->name('like');
             Route::delete('{id}/reaction', [ReactionController::class, 'destroy'])->name('unlike');
+        });
+    });
+    // Notification routes
+    Route::prefix("notifications")->name('notifications.')->group(function () {
+        // with auth
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('', [NotificationController::class, 'index'])->name('index');
+            Route::get('unread-count', [NotificationController::class, 'unreadCount'])->name('unread.count');
+            Route::patch('read-all', [NotificationController::class, 'markAllAsRead'])->name('read.all');
+            Route::patch('{id}/read', [NotificationController::class, 'markAsRead'])->whereUuid('id')->name('read');
+            Route::delete('{id}', [NotificationController::class, 'destroy'])->whereUuid('id')->name('destroy');
         });
     });
 });

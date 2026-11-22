@@ -15,6 +15,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Features\Account\Notifications\PasswordResetNotification;
+use App\Features\Notification\Models\Notification;
+
 
 #[Fillable(['email', 'password', 'username', 'full_name', 'bio', 'avatar'])]
 #[Hidden(['password'])]
@@ -45,11 +47,27 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new PasswordResetNotification($token));
     }
 
-    public function articles(): HasMany {
+    public function articles(): HasMany
+    {
         return $this->hasMany(Article::class);
     }
 
-    public function reactions(): HasMany {
+    public function reactions(): HasMany
+    {
         return $this->hasMany(Reaction::class);
+    }
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')->latest();
+    }
+
+    public function readNotifications()
+    {
+        return $this->notifications()->whereNotNull('read_at');
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->notifications()->whereNull('read_at');
     }
 }
