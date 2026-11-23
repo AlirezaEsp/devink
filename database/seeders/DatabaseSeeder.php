@@ -49,5 +49,6 @@ class DatabaseSeeder extends Seeder
                 ->for($user)
                 ->create();
         }
+        $this->call(CategorySeeder::class);
     }
 }
