@@ -39,7 +39,17 @@ class UpdateArticleRequest extends FormRequest
             'body' => [
                 'sometimes',
                 'string',
-            ]
+            ],
+            'tags' => [
+                'sometimes',
+                'array',
+                'max:5'
+            ],
+            'tags.*' => [
+                'integer',
+                'distinct',
+                'exists:tags,id'
+            ],
         ];
     }
 }

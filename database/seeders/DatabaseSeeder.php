@@ -49,5 +49,8 @@ class DatabaseSeeder extends Seeder
                 ->for($user)
                 ->create();
         }
+        $this->call([
+            TagSeeder::class,
+        ]);
     }
 }
