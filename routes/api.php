@@ -67,6 +67,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('{id}/reaction', [ReactionController::class, 'destroy'])->name('unlike');
         });
     });
+
+    // Tag routes
     Route::prefix('tags')->name('tags.')->group(function () {
         Route::get('', [TagController::class, 'showTags'])->name('show.tags');
     });
