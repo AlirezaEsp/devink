@@ -67,6 +67,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('{id}/reaction', [ReactionController::class, 'destroy'])->name('unlike');
         });
     });
+
+    // Category routes
     Route::prefix("categories")->name('categories.')->group(function () {
             Route::get('', [CategoryController::class, 'showCategories'])->name('show.categories');
     });
