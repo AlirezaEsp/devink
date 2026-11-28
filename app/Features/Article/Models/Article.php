@@ -4,6 +4,7 @@ namespace App\Features\Article\Models;
 
 use App\Features\Account\Models\User;
 use App\Features\Article\Enums\ArticleStatus;
+use App\Features\Category\Models\Category;
 use App\Features\Reaction\Models\Reaction;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['title', 'slug', 'body'])]
+#[Fillable(['title', 'slug', 'body','category_id'])]
 class Article extends Model
 {
     use SoftDeletes, HasFactory;
@@ -33,6 +34,11 @@ class Article extends Model
 
     public function reactions(): HasMany {
         return $this->hasMany(Reaction::class);
+    }
+
+    public function category():BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 
     protected $attributes = [

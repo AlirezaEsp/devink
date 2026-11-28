@@ -4,6 +4,7 @@
 use App\Features\Article\Controllers\ArticleController;
 use App\Features\Account\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
+use App\Features\Category\Controllers\CategoryController;
 use App\Features\Reaction\Controllers\ReactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,5 +66,10 @@ Route::prefix('v1')->group(function () {
             Route::post('{id}/reaction', [ReactionController::class, 'store'])->name('like');
             Route::delete('{id}/reaction', [ReactionController::class, 'destroy'])->name('unlike');
         });
+    });
+
+    // Category routes
+    Route::prefix("categories")->name('categories.')->group(function () {
+            Route::get('', [CategoryController::class, 'showCategories'])->name('show.categories');
     });
 });
