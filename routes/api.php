@@ -6,6 +6,7 @@ use App\Features\Account\Controllers\AuthController;
 use App\Features\Account\Controllers\ProfileController;
 use App\Features\Category\Controllers\CategoryController;
 use App\Features\Reaction\Controllers\ReactionController;
+use App\Features\Tag\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -72,4 +73,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix("categories")->name('categories.')->group(function () {
             Route::get('', [CategoryController::class, 'showCategories'])->name('show.categories');
     });
+  
+    // Tag routes
+    Route::prefix('tags')->name('tags.')->group(function () {
+        Route::get('', [TagController::class, 'showTags'])->name('show.tags');
 });

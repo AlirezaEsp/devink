@@ -41,6 +41,16 @@ class UpdateArticleRequest extends FormRequest
                 'sometimes',
                 'string',
             ],
+            'tags' => [
+                'sometimes',
+                'array',
+                'max:5'
+            ],
+            'tags.*' => [
+                'integer',
+                'distinct',
+                'exists:tags,id'
+            ],
             'category_id' => [
                 'sometimes',
                 'integer',

@@ -42,6 +42,16 @@ class StoreArticleRequest extends FormRequest
                 'required',
                 'string',
             ],
+            'tags' => [
+                'sometimes',
+                'array',
+                'max:5'
+            ],
+            'tags.*' => [
+                'integer',
+                'distinct',
+                'exists:tags,id'
+            ],
         ];
     }
 }

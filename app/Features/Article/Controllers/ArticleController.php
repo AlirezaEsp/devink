@@ -26,8 +26,11 @@ class ArticleController
         // get new article data
         $articleData = $request->validated();
 
+        $tagIds = $articleData['tags'] ?? [];
+        unset($articleData['tags']);
         // create new article in db
         $newArticle = $request->user()->articles()->create($articleData);
+        $newArticle->tags()->sync($tagIds);
         $newArticle->load('category');
 
         // return successful message with new stored article resource
@@ -104,6 +107,12 @@ class ArticleController
 
         // get article data to be replaced
         $updateData = $request->validated();
+        if (array_key_exists('tags', $updateData)) {
+            $tagIds = $updateData['tags'];
+            unset($updateData['tags']);
+
+            $article->tags()->sync($tagIds);
+        }
 
         // update article
         $article->update($updateData);
