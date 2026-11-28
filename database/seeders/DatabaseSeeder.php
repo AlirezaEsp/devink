@@ -54,5 +54,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TagSeeder::class,
         ]);
+      
+        // generate few categories
+        $this->call(
+          CategorySeeder::class
+        );
     }
 }

@@ -31,6 +31,8 @@ class ArticleController
         // create new article in db
         $newArticle = $request->user()->articles()->create($articleData);
         $newArticle->tags()->sync($tagIds);
+        $newArticle->load('category');
+
         // return successful message with new stored article resource
         return response()->json([
             'message' => 'Article created successfully.',
@@ -48,6 +50,7 @@ class ArticleController
     public function showMine(Request $request): AnonymousResourceCollection {
         // get authenticated user articles from db
         $articles = Article::query()
+            ->with('category')
             ->where('user_id', $request->user()->id)
             ->latest()
             ->paginate(3);
@@ -70,6 +73,7 @@ class ArticleController
 
         // find user desired article from db
         $article = Article::query()
+            ->with('category')
             ->withCount('reactions')
             ->withExists([
                 'reactions as is_reacted' => fn ($query) =>
@@ -112,7 +116,7 @@ class ArticleController
 
         // update article
         $article->update($updateData);
-
+        $article->load('category');
         // return successful message with updated article resource
         return response()->json([
             'message' => 'Article updated successfully.',
@@ -161,6 +165,7 @@ class ArticleController
 
         // fetch article from db
         $article = Article::query()
+            ->with('category')
             ->where('user_id', $user->id)
             ->where('id', $id)
             ->firstOrFail();
@@ -199,6 +204,7 @@ class ArticleController
 
         // fetch article from db
         $article = Article::query()
+            ->with('category')
             ->where('user_id', $user->id)
             ->where('id', $id)
             ->firstOrFail();
@@ -242,6 +248,7 @@ class ArticleController
         
         // fetch article from db
         $article = Article::query()
+            ->with('category')
             ->withCount('reactions')
             ->withExists([
                 'reactions as is_reacted' => fn ($query) =>

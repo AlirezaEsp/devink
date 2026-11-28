@@ -2,6 +2,7 @@
 
 namespace App\Features\Article\Requests;
 
+use App\Features\Category\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -50,6 +51,11 @@ class UpdateArticleRequest extends FormRequest
                 'distinct',
                 'exists:tags,id'
             ],
+            'category_id' => [
+                'sometimes',
+                'integer',
+                Rule::exists(Category::class, 'id')
+            ]
         ];
     }
 }

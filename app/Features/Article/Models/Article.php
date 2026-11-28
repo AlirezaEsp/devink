@@ -4,6 +4,7 @@ namespace App\Features\Article\Models;
 
 use App\Features\Account\Models\User;
 use App\Features\Article\Enums\ArticleStatus;
+use App\Features\Category\Models\Category;
 use App\Features\Reaction\Models\Reaction;
 use App\Features\Tag\Models\Tag;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['title', 'slug', 'body'])]
+#[Fillable(['title', 'slug', 'body','category_id'])]
 class Article extends Model
 {
     use SoftDeletes, HasFactory;
@@ -41,6 +42,12 @@ class Article extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+  
+    public function category():BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     protected $attributes = [
         'status' => 'draft',
     ];

@@ -33,6 +33,11 @@ class StoreArticleRequest extends FormRequest
                 'string',
                 'unique:articles,slug'
             ],
+            'category_id' => [
+                'required',
+                'integer',
+                'exists:categories,id'
+            ],
             'body' => [
                 'required',
                 'string',
